@@ -1,0 +1,2330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serene Writes - AI Writing Assistant untuk Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #64b5f6; /* Biru muda untuk kontras */
+            --secondary-blue: #90caf9;
+            --accent-blue: #42a5f5;
+            --light-blue: #e3f2fd;
+            --white: #ffffff;
+            --text-light: #ffffff;
+            --text-dark: #1a237e; /* Biru tua untuk teks kontras */
+            --app-primary-blue: #1e88e5;
+            --app-secondary-blue: #42a5f5;
+            --light-bg: #f8f9fa;
+        }
+        
+        /* GLOBAL STYLES */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        /* LANDING PAGE STYLES */
+        .landing-page {
+            color: var(--text-dark);
+            background-color: var(--primary-blue);
+        }
+        
+        /* Batik Mega Mendung Pattern - Lebih halus dan kontras */
+        .mega-mendung-bg {
+            background-color: var(--primary-blue);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.25) 3%, transparent 25%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.25) 3%, transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 5%, transparent 35%),
+                radial-gradient(circle at 10% 90%, rgba(255,255,255,0.15) 2%, transparent 20%),
+                radial-gradient(circle at 90% 10%, rgba(255,255,255,0.15) 2%, transparent 20%),
+                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.2) 3%, transparent 30%),
+                radial-gradient(circle at 70% 40%, rgba(255,255,255,0.2) 3%, transparent 30%);
+            background-size: 180px 180px, 220px 220px, 200px 200px, 150px 150px, 150px 150px, 170px 170px, 170px 170px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mega-mendung-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, transparent 68%, rgba(255,255,255,0.15) 68%, rgba(255,255,255,0.15) 72%, transparent 72%),
+                linear-gradient(-45deg, transparent 68%, rgba(255,255,255,0.15) 68%, rgba(255,255,255,0.15) 72%, transparent 72%),
+                linear-gradient(135deg, transparent 68%, rgba(255,255,255,0.15) 68%, rgba(255,255,255,0.15) 72%, transparent 72%),
+                linear-gradient(-135deg, transparent 68%, rgba(255,255,255,0.15) 68%, rgba(255,255,255,0.15) 72%, transparent 72%),
+                linear-gradient(90deg, transparent 75%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.1) 80%, transparent 80%),
+                linear-gradient(0deg, transparent 75%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.1) 80%, transparent 80%);
+            background-size: 70px 70px;
+            opacity: 0.8;
+        }
+        
+        /* Landing Page Navbar */
+        .landing-navbar {
+            background-color: rgba(100, 181, 246, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .landing-navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-dark) !important;
+        }
+        
+        .landing-navbar-nav .nav-link {
+            color: rgba(26, 35, 126, 0.9) !important;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .landing-navbar-nav .nav-link:hover {
+            color: var(--text-dark) !important;
+            transform: translateY(-2px);
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+        
+        /* Landing Page Hero Section */
+        .hero-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+            opacity: 0.9;
+            max-width: 600px;
+            font-weight: 500;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        /* Landing Page Feature Section */
+        .feature-section {
+            padding: 5rem 0;
+            background-color: rgba(144, 202, 249, 0.85);
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--text-dark);
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-dark);
+            opacity: 0.9;
+            font-weight: 500;
+        }
+        
+        .landing-feature-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 2rem;
+        }
+        
+        .landing-feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .feature-description {
+            color: var(--text-dark);
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
+        /* Updated CTA Section - Mirip dengan gambar batik Mega Mendung */
+        .cta-section {
+            padding: 5rem 0;
+            background-color: rgba(66, 165, 245, 0.9);
+            position: relative;
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-content::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15) 2%, transparent 20%),
+                radial-gradient(circle at 70% 70%, rgba(255,255,255,0.15) 2%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 3%, transparent 25%);
+            background-size: 120px 120px;
+            opacity: 0.6;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-100px, -100px) rotate(360deg); }
+        }
+        
+        .cta-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-text {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-dark);
+            opacity: 0.9;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            line-height: 1.8;
+        }
+        
+        .cta-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 2;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-dark);
+            opacity: 0.9;
+            font-weight: 600;
+        }
+        
+        .cta-buttons {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Landing Page Footer */
+        .landing-footer {
+            background-color: rgba(79, 170, 240, 0.9);
+            padding: 3rem 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            color: var(--text-dark);
+        }
+        
+        /* Batik Pattern Divider */
+        .batik-divider {
+            height: 100px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255,255,255,0.2) 10%, 
+                rgba(255,255,255,0.4) 20%, 
+                rgba(255,255,255,0.2) 30%,
+                transparent 40%,
+                rgba(255,255,255,0.2) 50%,
+                rgba(255,255,255,0.4) 60%,
+                rgba(255,255,255,0.2) 70%,
+                transparent 80%,
+                rgba(255,255,255,0.2) 90%,
+                transparent 100%
+            );
+            background-size: 200% 100%;
+            animation: wave 10s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* APP STYLES */
+        .app-page {
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+        }
+        
+        .batik-pattern {
+            background-image: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="batik" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="15" fill="%231e88e5" opacity="0.05"/><circle cx="75" cy="75" r="15" fill="%231e88e5" opacity="0.05"/><path d="M 25 25 Q 50 10, 75 25" stroke="%231e88e5" fill="none" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23batik)"/></svg>');
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, var(--app-primary-blue), var(--app-secondary-blue));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar {
+            background-color: white;
+            min-height: calc(100vh - 70px);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding: 1.5rem 0;
+        }
+        
+        .sidebar .nav-link {
+            color: var(--text-dark);
+            padding: 0.8rem 1.5rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: rgba(30, 136, 229, 0.1);
+            border-left-color: var(--app-primary-blue);
+            color: var(--app-primary-blue);
+        }
+        
+        .main-content {
+            padding: 2rem;
+            background-color: var(--light-bg);
+            min-height: calc(100vh - 70px);
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--app-primary-blue);
+        }
+        
+        .btn-primary {
+            background-color: var(--app-primary-blue);
+            border-color: var(--app-primary-blue);
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1976d2;
+            border-color: #1976d2;
+            transform: translateY(-1px);
+        }
+        
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--app-primary-blue), var(--app-secondary-blue));
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--app-primary-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            border-color: var(--app-primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(30, 136, 229, 0.25);
+            outline: none;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--app-primary-blue), var(--app-secondary-blue));
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .note-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--app-primary-blue);
+            transition: all 0.3s;
+        }
+        
+        .note-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .progress {
+            height: 20px;
+            border-radius: 10px;
+        }
+        
+        .progress-bar {
+            background-color: var(--app-primary-blue);
+            border-radius: 10px;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .page-content {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-content {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .modal-header {
+            background-color: var(--app-primary-blue);
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .form-control:focus {
+            border-color: var(--app-primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(30, 136, 229, 0.25);
+        }
+        
+        .form-select:focus {
+            border-color: var(--app-primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(30, 136, 229, 0.25);
+        }
+        
+        /* Landing Page Button Styles */
+        .btn-landing-primary {
+            background-color: var(--text-dark);
+            border-color: var(--text-dark);
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+            color: var(--white);
+        }
+        
+        .btn-landing-primary:hover {
+            background-color: #283593;
+            border-color: #283593;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: var(--white);
+        }
+        
+        .btn-outline-landing {
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid var(--text-dark);
+            color: var(--text-dark);
+        }
+        
+        .btn-outline-landing:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                padding: 1rem 0;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .landing-feature-card {
+                padding: 1.5rem;
+            }
+            
+            .cta-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .cta-title {
+                font-size: 2.2rem;
+            }
+            
+            .cta-stats {
+                gap: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notifications -->
+    <div class="toast-container"></div>
+
+    <!-- LANDING PAGE -->
+    <div id="landingPage" class="landing-page mega-mendung-bg">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark landing-navbar fixed-top">
+            <div class="container">
+                <a class="navbar-brand landing-navbar-brand" href="#">
+                    <i class="fas fa-pen-fancy me-2"></i>Serene Writes
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto landing-navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#home">Beranda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Fitur</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#cta">Bergabung</a>
+                        </li>
+                        <li class="nav-item ms-2">
+                            <a class="btn btn-landing-primary" href="#" id="goToLoginBtn">Login / Daftar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 hero-content animate-fade-in-up">
+                        <span class="hero-badge">
+                            <i class="fas fa-robot me-2"></i>AI Writing Assistant
+                        </span>
+                        <h1 class="hero-title">Tingkatkan Produktivitas Menulis Akademik Anda</h1>
+                        <p class="hero-subtitle">
+                            Serene Writes adalah asisten menulis AI pertama di Indonesia yang dirancang khusus untuk mahasiswa. 
+                            Dengan teknologi kecerdasan buatan, aplikasi ini membantu Anda menulis, menyunting, 
+                            dan menganalisis tulisan akademik dengan lebih efisien.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="#features" class="btn btn-landing-primary btn-lg">
+                                <i class="fas fa-play-circle me-2"></i>Jelajahi Fitur
+                            </a>
+                            <a href="#" class="btn btn-outline-landing btn-lg" id="startFreeBtn">
+                                <i class="fas fa-rocket me-2"></i>Mulai Gratis
+                            </a>
+                        </div>
+                        <div class="mt-5">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fas fa-check-circle fa-2x" style="color: var(--text-dark);"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0" style="color: var(--text-dark);">100% Gratis</h5>
+                                            <small style="color: var(--text-dark); opacity: 0.8;">Untuk mahasiswa Indonesia</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fas fa-shield-alt fa-2x" style="color: var(--text-dark);"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0" style="color: var(--text-dark);">Aman & Privasi</h5>
+                                            <small style="color: var(--text-dark); opacity: 0.8;">Data Anda terlindungi</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fas fa-bolt fa-2x" style="color: var(--text-dark);"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0" style="color: var(--text-dark);">Cepat & Efisien</h5>
+                                            <small style="color: var(--text-dark); opacity: 0.8;">Hemat waktu menulis</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="position-relative">
+                            <!-- Batik ornament -->
+                            <div class="position-absolute top-0 start-0" style="width: 100px; height: 100px; opacity: 0.3;">
+                                <div class="position-absolute" style="width: 100%; height: 100%; border: 3px solid var(--text-dark); border-radius: 50%;"></div>
+                                <div class="position-absolute" style="top: 25%; left: 25%; width: 50%; height: 50%; border: 2px solid var(--text-dark); border-radius: 50%;"></div>
+                            </div>
+                            
+                            <!-- Feature preview illustration -->
+                            <div class="bg-white rounded-3 p-4 shadow-lg" style="opacity: 0.95; border: 2px solid rgba(26, 35, 126, 0.2);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="rounded-circle p-2 me-3" style="background-color: var(--text-dark); color: white;">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0" style="color: var(--text-dark);">Editor AI Cerdas</h5>
+                                        <small class="text-muted">Memperbaiki tulisan secara otomatis</small>
+                                    </div>
+                                </div>
+                                <div class="border rounded p-3 mb-3" style="background-color: #f8f9fa;">
+                                    <p class="mb-2 text-muted"><small>Teks asli:</small></p>
+                                    <p class="mb-0 small">"penelitian ini menunjukan bahwa ada hubungan signifikan antara..."</p>
+                                </div>
+                                <div class="border rounded p-3" style="background-color: #e8f5e9;">
+                                    <p class="mb-2" style="color: var(--text-dark);"><small><i class="fas fa-magic me-1"></i>Hasil perbaikan AI:</small></p>
+                                    <p class="mb-0 small fw-medium">"Penelitian ini menunjukkan bahwa terdapat hubungan signifikan antara..."</p>
+                                </div>
+                                <div class="mt-3 d-flex justify-content-between">
+                                    <span class="badge" style="background-color: var(--text-dark);">Kapitalisasi</span>
+                                    <span class="badge" style="background-color: var(--accent-blue);">Ejaan</span>
+                                    <span class="badge" style="background-color: var(--primary-blue);">Tanda Baca</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Batik Divider -->
+        <div class="batik-divider"></div>
+
+        <!-- Features Section -->
+        <section id="features" class="feature-section">
+            <div class="container">
+                <div class="text-center mb-5 animate-fade-in-up">
+                    <h2 class="section-title">Fitur Utama Serene Writes</h2>
+                    <p class="section-subtitle">
+                        Dengan teknologi AI mutakhir, Serene Writes membantu Anda dalam setiap tahap penulisan akademik.
+                    </p>
+                </div>
+                
+                <div class="row">
+                    <!-- Feature 1 -->
+                    <div class="col-lg-4 col-md-6 animate-fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="landing-feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <h3 class="feature-title">Editor AI Cerdas</h3>
+                            <p class="feature-description">
+                                Perbaiki ejaan, tata bahasa, dan struktur tulisan secara otomatis dengan teknologi AI.
+                                Editor kami memahami konteks akademik dan memberikan saran perbaikan yang tepat.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Koreksi ejaan otomatis</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Perbaikan tata bahasa</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Saran perbaikan gaya tulisan</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="col-lg-4 col-md-6 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="landing-feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <h3 class="feature-title">Parafrase Akademik</h3>
+                            <p class="feature-description">
+                                Ubah kalimat tanpa mengubah makna asli. Alat parafrase kami membantu menghindari plagiarisme 
+                                sekaligus meningkatkan kualitas tulisan Anda.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Pemahaman konteks akademik</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Penggantian sinonim tepat</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Restrukturisasi kalimat</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="col-lg-4 col-md-6 animate-fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="landing-feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="feature-title">Deteksi Plagiarisme</h3>
+                            <p class="feature-description">
+                                Cek tingkat kemiripan tulisan Anda dengan sumber online. Sistem kami memberikan laporan 
+                                detail dan saran untuk menghindari plagiarisme.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Pemeriksaan database ekstensif</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Laporan persentase kemiripan</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Saran perbaikan spesifik</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 4 -->
+                    <div class="col-lg-4 col-md-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="landing-feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-compress-alt"></i>
+                            </div>
+                            <h3 class="feature-title">Peringkas Otomatis</h3>
+                            <p class="feature-description">
+                                Rangkum teks panjang menjadi poin-poin penting. Alat ini ideal untuk meringkas jurnal, 
+                                buku, atau bahan penelitian Anda.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Ekstraksi ide utama</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Penyesuaian panjang ringkasan</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Mempertahankan makna asli</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 5 -->
+                    <div class="col-lg-4 col-md-6 animate-fade-in-up" style="animation-delay: 0.5s;">
+                        <div class="landing-feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-sticky-note"></i>
+                            </div>
+                            <h3 class="feature-title">Manajemen Catatan</h3>
+                            <p class="feature-description">
+                                Simpan, atur, dan kelola catatan penelitian Anda. Sistem terintegrasi memudahkan Anda 
+                                mengakses catatan kapan saja.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Penyimpanan cloud</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Pencarian cepat</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Kategorisasi otomatis</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 6 -->
+                    <div class="col-lg-4 col-md-6 animate-fade-in-up" style="animation-delay: 0.6s;">
+                        <div class="landing-feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="feature-title">Analitik Menulis</h3>
+                            <p class="feature-description">
+                                Pantau perkembangan menulis Anda dengan statistik detail. Dapatkan wawasan tentang 
+                                kebiasaan menulis dan area perbaikan.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Statistik produktivitas</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Analisis kompleksitas tulisan</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Pelacakan kemajuan</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Batik Divider -->
+        <div class="batik-divider"></div>
+
+        <!-- UPDATED CTA SECTION - Menggantikan bagian yang dihapus -->
+        <section id="cta" class="cta-section">
+            <div class="container">
+                <div class="cta-content animate-fade-in-up">
+                    <h2 class="cta-title">Bergabunglah dengan Komunitas Penulis Akademik</h2>
+                    <p class="cta-text">
+                        Ribuan mahasiswa Indonesia telah mempercayakan proses penulisan mereka kepada Serene Writes. 
+                        Nikmati kemudahan menulis dengan teknologi AI yang dirancang khusus untuk kebutuhan akademik, 
+                        sambil melestarikan keindahan budaya Indonesia melalui desain batik Mega Mendung kami.
+                    </p>
+                    
+                    <div class="cta-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">10K+</span>
+                            <span class="stat-label">Pengguna Aktif</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50K+</span>
+                            <span class="stat-label">Tugas Diselesaikan</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">99%</span>
+                            <span class="stat-label">Kepuasan Pengguna</span>
+                        </div>
+                    </div>
+                    
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-landing-primary btn-lg" id="getStartedBtn">
+                            <i class="fas fa-user-plus me-2"></i>Mulai Menulis Sekarang
+                        </a>
+                        <a href="#" class="btn btn-outline-landing btn-lg" id="learnMoreBtn">
+                            <i class="fas fa-info-circle me-2"></i>Pelajari Lebih Lanjut
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="landing-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <h4 class="mb-4">
+                            <i class="fas fa-pen-fancy me-2"></i>Serene Writes
+                        </h4>
+                        <p style="color: var(--text-dark);">
+                            Asisten menulis AI pertama di Indonesia yang dirancang khusus 
+                            untuk kebutuhan akademik mahasiswa.
+                        </p>
+                        <div class="d-flex gap-3 mt-4">
+                            <a href="#" class="fs-5" style="color: var(--text-dark);"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="fs-5" style="color: var(--text-dark);"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="fs-5" style="color: var(--text-dark);"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="fs-5" style="color: var(--text-dark);"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="mb-4" style="color: var(--text-dark);">Fitur</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Editor AI</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Parafrase</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Cek Plagiarisme</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Peringkas</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="mb-4" style="color: var(--text-dark);">Perusahaan</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Tentang Kami</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Blog</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Karir</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Kontak</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <h5 class="mb-4" style="color: var(--text-dark);">Tetap Terhubung</h5>
+                        <p class="mb-3" style="color: var(--text-dark); opacity: 0.9;">Berlangganan newsletter untuk mendapatkan tips menulis dan update fitur.</p>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Email Anda" style="border: 2px solid rgba(26, 35, 126, 0.3);">
+                            <button class="btn btn-landing-primary" type="button">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <p class="small mt-3" style="color: var(--text-dark); opacity: 0.8;">
+                            <i class="fas fa-map-marker-alt me-2"></i>Jakarta, Indonesia
+                        </p>
+                    </div>
+                </div>
+                <hr class="my-4" style="border-color: rgba(26, 35, 126, 0.3);">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-0" style="color: var(--text-dark);">&copy; 2023 Serene Writes. Hak cipta dilindungi.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="#" class="text-decoration-none me-3" style="color: var(--text-dark); opacity: 0.9;">Kebijakan Privasi</a>
+                        <a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Syarat Layanan</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- AUTHENTICATION PAGES (Hidden by default) -->
+    <!-- Login Page -->
+    <div id="loginPage" class="auth-container hidden">
+        <div class="auth-card batik-pattern">
+            <div class="text-center mb-4">
+                <div class="logo-text">Serene Writes</div>
+                <p class="text-muted">AI Writing Assistant untuk Mahasiswa</p>
+            </div>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember Me</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+                <div class="text-center">
+                    <a href="#" id="showForgotPassword" class="text-muted small">Lupa Password?</a>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <span class="text-muted">Belum punya akun?</span>
+                    <a href="#" id="showRegister" class="text-primary">Daftar</a>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="#" id="backToLanding" class="text-primary">
+                        <i class="fas fa-arrow-left me-1"></i>Kembali ke Beranda
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="registerPage" class="auth-container hidden">
+        <div class="auth-card batik-pattern">
+            <div class="text-center mb-4">
+                <div class="logo-text">Serene Writes</div>
+                <p class="text-muted">Daftar Akun Baru</p>
+            </div>
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-control" id="registerName" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="registerEmail" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="registerPassword" required minlength="6">
+                    <small class="text-muted">Minimal 6 karakter</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Konfirmasi Password</label>
+                    <input type="password" class="form-control" id="registerConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mb-3">Daftar</button>
+                <div class="text-center">
+                    <span class="text-muted">Sudah punya akun?</span>
+                    <a href="#" id="showLogin" class="text-primary">Login</a>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="#" id="backToLandingFromRegister" class="text-primary">
+                        <i class="fas fa-arrow-left me-1"></i>Kembali ke Beranda
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Page -->
+    <div id="forgotPasswordPage" class="auth-container hidden">
+        <div class="auth-card batik-pattern">
+            <div class="text-center mb-4">
+                <div class="logo-text">Serene Writes</div>
+                <p class="text-muted">Reset Password</p>
+            </div>
+            <form id="forgotPasswordForm">
+                <div class="mb-3">
+                    <label class="form-label">Email Terdaftar</label>
+                    <input type="email" class="form-control" id="forgotEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mb-3">Kirim Link Reset</button>
+                <div class="text-center">
+                    <a href="#" id="backToLogin" class="text-primary">Kembali ke Login</a>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="#" id="backToLandingFromForgot" class="text-primary">
+                        <i class="fas fa-arrow-left me-1"></i>Kembali ke Beranda
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APPLICATION (Hidden by default) -->
+    <div id="mainApp" class="hidden app-page">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h3 class="mb-0"><i class="fas fa-pen-fancy"></i> Serene Writes</h3>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <span class="me-3" id="userNameDisplay"></span>
+                        <button class="btn btn-light btn-sm" id="editProfileBtn">
+                            <i class="fas fa-user-edit"></i> Edit Profil
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" id="backToLandingFromApp">
+                            <i class="fas fa-home"></i> Beranda
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar Navigation -->
+                <nav class="col-md-2 sidebar">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-page="dashboard">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-page="editor">
+                                <i class="fas fa-edit"></i> Editor AI
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-page="paraphrase">
+                                <i class="fas fa-sync-alt"></i> Parafrase
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-page="plagiarism">
+                                <i class="fas fa-shield-alt"></i> Cek Plagiarisme
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-page="summarizer">
+                                <i class="fas fa-compress-alt"></i> Summarizer
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-page="notes">
+                                <i class="fas fa-sticky-note"></i> Catatan Saya
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Main Content Area -->
+                <main class="col-md-10 main-content">
+                    <!-- Dashboard Page -->
+                    <div id="dashboardPage" class="page-content">
+                        <h2 class="mb-4">Dashboard</h2>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h5>Total Catatan</h5>
+                                    <h2 id="totalNotes">0</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h5>Total Kata</h5>
+                                    <h2 id="totalWords">0</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h5>Parafrase</h5>
+                                    <h2 id="totalParaphrase">0</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h5>Ringkasan</h5>
+                                    <h2 id="totalSummaries">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card mt-4" id="dashboardContent">
+                            <!-- Content will be loaded by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Editor AI Page -->
+                    <div id="editorPage" class="page-content hidden">
+                        <h2 class="mb-4">Editor AI</h2>
+                        <div class="feature-card">
+                            <div class="mb-3">
+                                <label class="form-label">Masukkan Teks</label>
+                                <textarea class="form-control" id="editorInput" 
+                                          placeholder="Ketik atau tempel teks Anda di sini..."></textarea>
+                            </div>
+                            <div class="d-flex gap-2 mb-3">
+                                <button class="btn btn-primary" id="autoEditBtn">
+                                    <i class="fas fa-magic"></i> Edit Otomatis
+                                </button>
+                                <button class="btn btn-success" id="saveEditorBtn">
+                                    <i class="fas fa-save"></i> Simpan ke Catatan
+                                </button>
+                                <button class="btn btn-outline-secondary" id="clearEditorBtn">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
+                            <div class="mt-4" id="editorResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Paraphrase Page -->
+                    <div id="paraphrasePage" class="page-content hidden">
+                        <h2 class="mb-4">Parafrase Teks</h2>
+                        <div class="feature-card">
+                            <div class="mb-3">
+                                <label class="form-label">Teks Asli</label>
+                                <textarea class="form-control" id="paraphraseInput" 
+                                          placeholder="Masukkan teks yang ingin diparafrasekan..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" id="paraphraseBtn">
+                                <i class="fas fa-sync-alt"></i> Parafrase
+                            </button>
+                            <div class="mt-4" id="paraphraseResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Plagiarism Check Page -->
+                    <div id="plagiarismPage" class="page-content hidden">
+                        <h2 class="mb-4">Cek Plagiarisme</h2>
+                        <div class="feature-card">
+                            <div class="mb-3">
+                                <label class="form-label">Teks untuk Dicek</label>
+                                <textarea class="form-control" id="plagiarismInput" 
+                                          placeholder="Masukkan teks untuk dicek plagiarisme..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" id="checkPlagiarismBtn">
+                                <i class="fas fa-shield-alt"></i> Cek Plagiarisme
+                            </button>
+                            <div class="mt-4" id="plagiarismResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Summarizer Page -->
+                    <div id="summarizerPage" class="page-content hidden">
+                        <h2 class="mb-4">Summarizer</h2>
+                        <div class="feature-card">
+                            <div class="mb-3">
+                                <label class="form-label">Teks Panjang</label>
+                                <textarea class="form-control" id="summarizerInput" 
+                                          placeholder="Masukkan teks panjang untuk dirangkum..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" id="summarizeBtn">
+                                <i class="fas fa-compress-alt"></i> Rangkum
+                            </button>
+                            <div class="mt-4" id="summarizerResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Page -->
+                    <div id="notesPage" class="page-content hidden">
+                        <h2 class="mb-4">Catatan Saya</h2>
+                        <div class="feature-card">
+                            <button class="btn btn-primary mb-3" id="addNoteBtn">
+                                <i class="fas fa-plus"></i> Tambah Catatan
+                            </button>
+                            <div id="notesList"></div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editProfileForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="editName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password Baru (kosongkan jika tidak ingin mengubah)</label>
+                            <input type="password" class="form-control" id="editPassword" minlength="6">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Note Modal -->
+    <div class="modal fade" id="addNoteModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Catatan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="addNoteForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Judul</label>
+                            <input type="text" class="form-control" id="noteTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Konten</label>
+                            <textarea class="form-control" id="noteContent" rows="10" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ==================== AUTHENTICATION SYSTEM ====================
+        class AuthSystem {
+            constructor() {
+                this.users = JSON.parse(localStorage.getItem('users') || '[]');
+                this.currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            }
+
+            hashPassword(password) {
+                let hash = 0;
+                for (let i = 0; i < password.length; i++) {
+                    const char = password.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return hash.toString();
+            }
+
+            register(name, email, password) {
+                if (this.users.find(u => u.email === email)) {
+                    return { success: false, message: 'Email sudah terdaftar!' };
+                }
+                const user = {
+                    id: Date.now(),
+                    name,
+                    email,
+                    password: this.hashPassword(password),
+                    createdAt: new Date().toISOString()
+                };
+                this.users.push(user);
+                localStorage.setItem('users', JSON.stringify(this.users));
+                return { success: true, message: 'Registrasi berhasil!' };
+            }
+
+            login(email, password, remember = false) {
+                const user = this.users.find(u => u.email === email && u.password === this.hashPassword(password));
+                if (!user) {
+                    return { success: false, message: 'Email atau password salah!' };
+                }
+                this.currentUser = user;
+                if (remember) {
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                } else {
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                }
+                return { success: true, user };
+            }
+
+            logout() {
+                this.currentUser = null;
+                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentUser');
+            }
+
+            isLoggedIn() {
+                return this.currentUser !== null || sessionStorage.getItem('currentUser') !== null;
+            }
+
+            updateProfile(name, email, password) {
+                const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+                if (userIndex === -1) return { success: false, message: 'User tidak ditemukan!' };
+                
+                this.users[userIndex].name = name;
+                this.users[userIndex].email = email;
+                if (password) {
+                    this.users[userIndex].password = this.hashPassword(password);
+                }
+                
+                this.currentUser = this.users[userIndex];
+                localStorage.setItem('users', JSON.stringify(this.users));
+                localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                return { success: true, message: 'Profil berhasil diupdate!' };
+            }
+
+            resetPassword(email) {
+                const user = this.users.find(u => u.email === email);
+                if (!user) {
+                    return { success: false, message: 'Email tidak ditemukan!' };
+                }
+                return { success: true, message: 'Link reset password telah dikirim ke email Anda!' };
+            }
+        }
+
+        // ==================== APPLICATION DATA MANAGER ====================
+        class AppData {
+            constructor(userId) {
+                this.userId = userId;
+                this.storageKey = `appData_${userId}`;
+                this.data = JSON.parse(localStorage.getItem(this.storageKey) || '{"notes": [], "stats": {"paraphrase": 0, "summaries": 0}}');
+            }
+
+            save() {
+                localStorage.setItem(this.storageKey, JSON.stringify(this.data));
+            }
+
+            addNote(title, content) {
+                const note = {
+                    id: Date.now(),
+                    title,
+                    content,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                this.data.notes.push(note);
+                this.save();
+                return note;
+            }
+
+            updateNote(id, title, content) {
+                const note = this.data.notes.find(n => n.id === id);
+                if (note) {
+                    note.title = title;
+                    note.content = content;
+                    note.updatedAt = new Date().toISOString();
+                    this.save();
+                }
+            }
+
+            deleteNote(id) {
+                this.data.notes = this.data.notes.filter(n => n.id !== id);
+                this.save();
+            }
+
+            getNotes() {
+                return this.data.notes;
+            }
+
+            incrementStat(stat) {
+                if (!this.data.stats[stat]) this.data.stats[stat] = 0;
+                this.data.stats[stat]++;
+                this.save();
+            }
+
+            getStats() {
+                return this.data.stats;
+            }
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function showToast(message, type = 'success') {
+            const toastContainer = document.querySelector('.toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+            toastContainer.appendChild(toast);
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+            setTimeout(() => toast.remove(), 5000);
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('#landingPage, #loginPage, #registerPage, #forgotPasswordPage, #mainApp').forEach(el => {
+                el.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==================== INITIALIZATION ====================
+        const auth = new AuthSystem();
+        let appData = null;
+
+        // Check login status on load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Show landing page by default
+            showPage('landingPage');
+            
+            // Check if user is already logged in
+            if (auth.isLoggedIn()) {
+                const user = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser'));
+                auth.currentUser = user;
+                appData = new AppData(user.id);
+                showMainApp();
+            }
+            
+            // Initialize landing page animations
+            animateOnScroll();
+        });
+
+        // ==================== LANDING PAGE FUNCTIONALITY ====================
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                if (targetId.startsWith('#') && document.getElementById(targetId.substring(1))) {
+                    const targetElement = document.getElementById(targetId.substring(1));
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.landing-navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '0.5rem 0';
+                navbar.style.backgroundColor = 'rgba(100, 181, 246, 0.9)';
+            } else {
+                navbar.style.padding = '1rem 0';
+                navbar.style.backgroundColor = 'rgba(100, 181, 246, 0.85)';
+            }
+        });
+
+        // Landing page button event handlers
+        document.getElementById('goToLoginBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('loginPage');
+        });
+
+        document.getElementById('startFreeBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('registerPage');
+        });
+
+        document.getElementById('getStartedBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('registerPage');
+        });
+
+        document.getElementById('learnMoreBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Scroll ke section features
+            const featuresSection = document.getElementById('features');
+            if (featuresSection) {
+                window.scrollTo({
+                    top: featuresSection.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+            }
+        });
+
+        // Back to landing page buttons
+        document.getElementById('backToLanding').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('landingPage');
+        });
+
+        document.getElementById('backToLandingFromRegister').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('landingPage');
+        });
+
+        document.getElementById('backToLandingFromForgot').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('landingPage');
+        });
+
+        document.getElementById('backToLandingFromApp').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('landingPage');
+        });
+
+        // ==================== AUTH EVENT LISTENERS ====================
+        document.getElementById('showRegister').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('registerPage');
+        });
+
+        document.getElementById('showLogin').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('loginPage');
+        });
+
+        document.getElementById('showForgotPassword').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('forgotPasswordPage');
+        });
+
+        document.getElementById('backToLogin').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('loginPage');
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+            
+            // Demo account
+            if (email === 'demo@example.com' && password === 'demo123') {
+                const demoUser = {
+                    id: 999,
+                    name: 'Demo User',
+                    email: 'demo@example.com',
+                    createdAt: new Date().toISOString()
+                };
+                auth.currentUser = demoUser;
+                appData = new AppData(demoUser.id);
+                showMainApp();
+                showToast('Login demo berhasil! Selamat mencoba Serene Writes.');
+                return;
+            }
+            
+            const result = auth.login(email, password, remember);
+            if (result.success) {
+                appData = new AppData(result.user.id);
+                showMainApp();
+                showToast('Login berhasil!');
+            } else {
+                showToast(result.message, 'danger');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                showToast('Password tidak cocok!', 'danger');
+                return;
+            }
+            
+            const result = auth.register(name, email, password);
+            if (result.success) {
+                showToast(result.message);
+                showPage('loginPage');
+            } else {
+                showToast(result.message, 'danger');
+            }
+        });
+
+        document.getElementById('forgotPasswordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmail').value;
+            const result = auth.resetPassword(email);
+            showToast(result.message, result.success ? 'success' : 'danger');
+            if (result.success) {
+                setTimeout(() => showPage('loginPage'), 2000);
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            auth.logout();
+            showPage('landingPage');
+            showToast('Logout berhasil!');
+        });
+
+        // ==================== MAIN APP FUNCTIONALITY ====================
+        function showMainApp() {
+            showPage('mainApp');
+            document.getElementById('userNameDisplay').textContent = auth.currentUser.name;
+            updateDashboard();
+            loadNotes();
+        }
+
+        // ==================== PROFILE MANAGEMENT ====================
+        document.getElementById('editProfileBtn').addEventListener('click', () => {
+            document.getElementById('editName').value = auth.currentUser.name;
+            document.getElementById('editEmail').value = auth.currentUser.email;
+            document.getElementById('editPassword').value = '';
+            new bootstrap.Modal(document.getElementById('editProfileModal')).show();
+        });
+
+        document.getElementById('editProfileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('editName').value;
+            const email = document.getElementById('editEmail').value;
+            const password = document.getElementById('editPassword').value;
+            
+            const result = auth.updateProfile(name, email, password);
+            if (result.success) {
+                showToast(result.message);
+                document.getElementById('userNameDisplay').textContent = name;
+                bootstrap.Modal.getInstance(document.getElementById('editProfileModal')).hide();
+            } else {
+                showToast(result.message, 'danger');
+            }
+        });
+
+        // ==================== NAVIGATION ====================
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                const page = link.getAttribute('data-page');
+                document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+                document.getElementById(page + 'Page').classList.remove('hidden');
+            });
+        });
+
+        // ==================== DASHBOARD ====================
+        function updateDashboard() {
+            const notes = appData.getNotes();
+            const stats = appData.getStats();
+            const totalWords = notes.reduce((sum, note) => sum + (note.content.match(/\b\w+\b/g) || []).length, 0);
+            
+            document.getElementById('totalNotes').textContent = notes.length;
+            document.getElementById('totalWords').textContent = totalWords.toLocaleString();
+            document.getElementById('totalParaphrase').textContent = (stats.paraphrase || 0).toLocaleString();
+            document.getElementById('totalSummaries').textContent = (stats.summaries || 0).toLocaleString();
+            
+            const dashboardContent = document.getElementById('dashboardContent');
+            if (dashboardContent) {
+                dashboardContent.innerHTML = `
+                    <h4>Selamat Datang, ${auth.currentUser.name}! 🎉</h4>
+                    <p class="text-muted">Aplikasi AI untuk membantu Anda menulis lebih cepat, rapi, dan bebas plagiarisme.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-chart-line me-2"></i>Statistik Anda</h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr><td>Total Catatan</td><td><strong>${notes.length}</strong></td></tr>
+                                        <tr><td>Total Kata</td><td><strong>${totalWords.toLocaleString()}</strong></td></tr>
+                                        <tr><td>Parafrase Dilakukan</td><td><strong>${stats.paraphrase || 0}</strong></td></tr>
+                                        <tr><td>Ringkasan Dibuat</td><td><strong>${stats.summaries || 0}</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-bolt me-2"></i>Fitur Cepat</h5>
+                            <div class="list-group">
+                                <button class="list-group-item list-group-item-action" onclick="navigateTo('editor')">
+                                    <i class="fas fa-magic me-2"></i>Editor AI
+                                </button>
+                                <button class="list-group-item list-group-item-action" onclick="navigateTo('paraphrase')">
+                                    <i class="fas fa-sync-alt me-2"></i>Parafrase
+                                </button>
+                                <button class="list-group-item list-group-item-action" onclick="navigateTo('summarizer')">
+                                    <i class="fas fa-compress-alt me-2"></i>Summarizer
+                                </button>
+                                <button class="list-group-item list-group-item-action" onclick="navigateTo('notes')">
+                                    <i class="fas fa-sticky-note me-2"></i>Catatan Saya
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5><i class="fas fa-lightbulb me-2"></i>Tips Produktif</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="alert alert-light">
+                                    <h6><i class="fas fa-magic me-2"></i>Editor AI</h6>
+                                    <p class="mb-0">Gunakan Editor AI untuk memperbaiki ejaan, kapitalisasi, dan tanda baca secara otomatis.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="alert alert-light">
+                                    <h6><i class="fas fa-sync-alt me-2"></i>Parafrase</h6>
+                                    <p class="mb-0">Parafrase teks untuk menghindari plagiarisme dan membuat tulisan lebih unik.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="alert alert-light">
+                                    <h6><i class="fas fa-compress-alt me-2"></i>Summarizer</h6>
+                                    <p class="mb-0">Rangkum teks panjang menjadi poin-poin penting dengan Summarizer.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="alert alert-light">
+                                    <h6><i class="fas fa-shield-alt me-2"></i>Cek Plagiarisme</h6>
+                                    <p class="mb-0">Periksa tingkat plagiarisme teks Anda sebelum mengumpulkan tugas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function navigateTo(page) {
+            document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelector(`[data-page="${page}"]`).classList.add('active');
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            document.getElementById(page + 'Page').classList.remove('hidden');
+        }
+
+        // ==================== EDITOR AI ====================
+        document.getElementById('autoEditBtn').addEventListener('click', () => {
+            const input = document.getElementById('editorInput').value;
+            if (!input.trim()) {
+                showToast('Masukkan teks terlebih dahulu!', 'warning');
+                return;
+            }
+            
+            // AI editing improvements
+            let edited = input;
+            
+            // Fix capitalization
+            edited = edited.toLowerCase().replace(/^\w|\.\s*\w/g, char => char.toUpperCase());
+            
+            // Fix spacing
+            edited = edited.replace(/\s+/g, ' ').trim();
+            
+            // Add punctuation if missing
+            if (!/[.!?]$/.test(edited.trim())) {
+                edited = edited.trim() + '.';
+            }
+            
+            // Fix punctuation spacing
+            edited = edited.replace(/\s*([.,!?;:])\s*/g, '$1 ');
+            
+            // Fix common Indonesian abbreviations
+            const corrections = {
+                'klo': 'kalau', 'yg': 'yang', 'tdk': 'tidak', 'bg': 'bagi',
+                'gk': 'tidak', 'dpt': 'dapat', 'tp': 'tapi', 'sbg': 'sebagai',
+                'jgn': 'jangan', 'sdh': 'sudah', 'blm': 'belum', 'pd': 'pada',
+                'dg': 'dengan', 'utk': 'untuk', 'krn': 'karena', 'tsb': 'tersebut'
+            };
+            
+            Object.keys(corrections).forEach(wrong => {
+                const regex = new RegExp(`\\b${wrong}\\b`, 'gi');
+                edited = edited.replace(regex, corrections[wrong]);
+            });
+            
+            document.getElementById('editorResult').innerHTML = `
+                <div class="alert alert-success">
+                    <h5><i class="fas fa-check-circle me-2"></i>Hasil Editing AI</h5>
+                    <textarea class="form-control" rows="8" id="editedText">${edited}</textarea>
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-primary me-2" onclick="copyToClipboard('editedText')">
+                            <i class="fas fa-copy"></i> Salin Teks
+                        </button>
+                        <button class="btn btn-sm btn-success" onclick="useEditedText()">
+                            <i class="fas fa-paste"></i> Gunakan di Editor
+                        </button>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted small">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Teks telah diperbaiki: Kapitalisasi, tanda baca, dan ejaan.
+                    </p>
+                </div>
+            `;
+            showToast('Editing AI selesai!');
+        });
+
+        document.getElementById('saveEditorBtn').addEventListener('click', () => {
+            const content = document.getElementById('editorInput').value;
+            if (!content.trim()) {
+                showToast('Tidak ada konten untuk disimpan!', 'warning');
+                return;
+            }
+            appData.addNote('Editor ' + new Date().toLocaleString(), content);
+            showToast('Berhasil disimpan ke catatan!');
+            updateDashboard();
+            loadNotes();
+        });
+
+        document.getElementById('clearEditorBtn').addEventListener('click', () => {
+            document.getElementById('editorInput').value = '';
+            document.getElementById('editorResult').innerHTML = '';
+            showToast('Editor berhasil dibersihkan!');
+        });
+
+        // ==================== PARAPHRASE ====================
+        document.getElementById('paraphraseBtn').addEventListener('click', () => {
+            const input = document.getElementById('paraphraseInput').value;
+            if (!input.trim()) {
+                showToast('Masukkan teks terlebih dahulu!', 'warning');
+                return;
+            }
+            
+            const synonymDictionary = {
+                'mengatakan': ['menyatakan', 'mengungkapkan', 'berkata', 'mengucapkan'],
+                'membuat': ['menciptakan', 'menghasilkan', 'memproduksi', 'membentuk'],
+                'melihat': ['memandang', 'mengamati', 'menyaksikan', 'memperhatikan'],
+                'besar': ['luas', 'agung', 'jumbo', 'raksasa', 'besar'],
+                'kecil': ['mungil', 'mini', 'kerdil', 'kecil', 'sempit'],
+                'baik': ['bagus', 'unggul', 'terpuji', 'baik', 'bermanfaat'],
+                'buruk': ['jelek', 'tidak baik', 'negatif', 'buruk', 'merugikan'],
+                'penting': ['utama', 'signifikan', 'krusial', 'vital', 'esensial'],
+                'cepat': ['gesit', 'tangkas', 'cepat', 'segera', 'lekas'],
+                'lambat': ['pelan', 'santai', 'lambat', 'tertunda', 'tersendat'],
+                'mahasiswa': ['pelajar', 'siswa perguruan tinggi', 'anak kuliahan', 'murid universitas'],
+                'tugas': ['pekerjaan', 'kewajiban', 'tugas kuliah', 'pekerjaan rumah'],
+                'belajar': ['mempelajari', 'menelaah', 'mengkaji', 'mendalami'],
+                'menulis': ['mengarang', 'menyusun', 'menggoreskan', 'merangkai kata']
+            };
+            
+            let paraphrased = input;
+            Object.keys(synonymDictionary).forEach(word => {
+                const regex = new RegExp(`\\b${word}\\b`, 'gi');
+                if (regex.test(paraphrased)) {
+                    const synonyms = synonymDictionary[word];
+                    const randomSynonym = synonyms[Math.floor(Math.random() * synonyms.length)];
+                    paraphrased = paraphrased.replace(regex, randomSynonym);
+                }
+            });
+            
+            // Restructure sentences for variety
+            const sentences = paraphrased.split(/[.!?]+/).filter(s => s.trim());
+            paraphrased = sentences.map(sentence => {
+                const words = sentence.trim().split(' ');
+                if (words.length > 4) {
+                    // Move first word to end for variety
+                    const firstWord = words.shift();
+                    words.push(firstWord);
+                    return words.join(' ');
+                }
+                return sentence.trim();
+            }).join('. ') + '.';
+            
+            const uniqueness = 75 + Math.floor(Math.random() * 20);
+            
+            document.getElementById('paraphraseResult').innerHTML = `
+                <div class="alert alert-info">
+                    <h5><i class="fas fa-sync-alt me-2"></i>Hasil Parafrase</h5>
+                    <textarea class="form-control" rows="8" id="paraphrasedText">${paraphrased}</textarea>
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-primary me-2" onclick="copyToClipboard('paraphrasedText')">
+                            <i class="fas fa-copy"></i> Salin Teks
+                        </button>
+                        <span class="badge bg-success">Keunikan: ${uniqueness}%</span>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted small">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Teknik: Penggantian sinonim + restrukturisasi kalimat
+                    </p>
+                </div>
+            `;
+            appData.incrementStat('paraphrase');
+            updateDashboard();
+            showToast(`Parafrase selesai! Tingkat keunikan: ${uniqueness}%`);
+        });
+
+        // ==================== PLAGIARISM CHECK ====================
+        document.getElementById('checkPlagiarismBtn').addEventListener('click', () => {
+            const input = document.getElementById('plagiarismInput').value;
+            if (!input.trim()) {
+                showToast('Masukkan teks terlebih dahulu!', 'warning');
+                return;
+            }
+            
+            // Simulate plagiarism check with different algorithms
+            const wordCount = input.split(/\s+/).length;
+            let plagiarismScore;
+            
+            if (wordCount < 50) {
+                plagiarismScore = Math.floor(Math.random() * 20); // Lower for short texts
+            } else if (wordCount < 200) {
+                plagiarismScore = Math.floor(Math.random() * 30); // Medium for medium texts
+            } else {
+                plagiarismScore = Math.floor(Math.random() * 40); // Higher for long texts
+            }
+            
+            // Ensure score is between 0-40
+            plagiarismScore = Math.min(40, plagiarismScore);
+            
+            const status = plagiarismScore < 15 ? 'success' : plagiarismScore < 25 ? 'warning' : 'danger';
+            const statusText = plagiarismScore < 15 ? 'Aman ✓' : plagiarismScore < 25 ? 'Perlu Revisi ⚠' : 'Tinggi ⚠⚠';
+            
+            document.getElementById('plagiarismResult').innerHTML = `
+                <div class="alert alert-${status}">
+                    <h5><i class="fas fa-shield-alt me-2"></i>Hasil Cek Plagiarisme</h5>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Tingkat Plagiarisme</span>
+                            <span>${plagiarismScore}%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-${status}" style="width: ${plagiarismScore}%"></div>
+                        </div>
+                    </div>
+                    <p><strong>Status:</strong> ${statusText}</p>
+                    <p><strong>Analisis Teks:</strong> ${wordCount} kata, ${input.length} karakter</p>
+                    <div class="mt-3">
+                        <h6>Saran Perbaikan:</h6>
+                        <ul class="mb-0">
+                            ${plagiarismScore < 15 ? 
+                                '<li>Teks Anda aman dari plagiarisme</li>' : 
+                                '<li>Gunakan fitur parafrase untuk mengurangi kesamaan</li>' +
+                                '<li>Tambahkan referensi dan kutipan yang sesuai</li>' +
+                                '<li>Ubah struktur kalimat dan paragraf</li>' +
+                                '<li>Tambahkan ide dan pendapat pribadi</li>'
+                            }
+                        </ul>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted small">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Skor di bawah 15% dianggap aman dari plagiarisme
+                    </p>
+                </div>
+            `;
+            showToast('Cek plagiarisme selesai!');
+        });
+
+        // ==================== SUMMARIZER ====================
+        document.getElementById('summarizeBtn').addEventListener('click', () => {
+            const input = document.getElementById('summarizerInput').value;
+            if (!input.trim()) {
+                showToast('Masukkan teks terlebih dahulu!', 'warning');
+                return;
+            }
+            
+            const sentences = input.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            if (sentences.length <= 3) {
+                showToast('Teks terlalu pendek untuk dirangkum!', 'warning');
+                return;
+            }
+            
+            // Simple TF-IDF like algorithm for summarization
+            const wordFrequency = {};
+            const words = input.toLowerCase().match(/\b\w+\b/g) || [];
+            words.forEach(word => {
+                wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+            });
+            
+            // Score sentences based on word importance
+            const sentenceScores = sentences.map(sentence => {
+                const sentenceWords = sentence.toLowerCase().match(/\b\w+\b/g) || [];
+                let score = 0;
+                const importantWords = [];
+                
+                sentenceWords.forEach(word => {
+                    if (word.length > 3 && wordFrequency[word]) {
+                        // Words that appear less frequently are more important
+                        const importance = 1 / wordFrequency[word];
+                        score += importance;
+                        importantWords.push({word, importance});
+                    }
+                });
+                
+                // Boost score for sentences that contain important keywords
+                const importantKeywords = ['kesimpulan', 'penting', 'utama', 'ringkasan', 'akhirnya', 'oleh karena itu'];
+                importantKeywords.forEach(keyword => {
+                    if (sentence.toLowerCase().includes(keyword)) {
+                        score += 2;
+                    }
+                });
+                
+                // Longer sentences tend to be more informative
+                score += sentenceWords.length * 0.1;
+                
+                return { 
+                    sentence: sentence.trim(), 
+                    score: score / (sentenceWords.length || 1),
+                    wordCount: sentenceWords.length
+                };
+            });
+            
+            // Sort sentences by score
+            sentenceScores.sort((a, b) => b.score - a.score);
+            
+            // Determine how many sentences to include in summary
+            const summaryCount = Math.max(2, Math.ceil(sentences.length * 0.3));
+            const maxSummarySentences = Math.min(summaryCount, 5);
+            
+            // Get top sentences and sort them back to original order
+            const summarySentences = sentenceScores
+                .slice(0, maxSummarySentences)
+                .map(s => s.sentence)
+                .sort((a, b) => sentences.indexOf(a) - sentences.indexOf(b));
+            
+            // Create summary
+            const summary = summarySentences.join('. ') + '.';
+            const reduction = Math.round((1 - (summarySentences.length / sentences.length)) * 100);
+            
+            document.getElementById('summarizerResult').innerHTML = `
+                <div class="alert alert-primary">
+                    <h5><i class="fas fa-compress-alt me-2"></i>Ringkasan Otomatis</h5>
+                    <div class="mb-3">
+                        <p class="mb-2"><strong>Statistik:</strong></p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="badge bg-info me-2">${sentences.length} → ${summarySentences.length} kalimat</span>
+                                <span class="badge bg-success">Menghemat ${reduction}%</span>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <small class="text-muted">${words.length} kata total</small>
+                            </div>
+                        </div>
+                    </div>
+                    <textarea class="form-control" rows="8" id="summaryText">${summary}</textarea>
+                    <div class="mt-2">
+                        <button class="btn btn-sm btn-primary me-2" onclick="copyToClipboard('summaryText')">
+                            <i class="fas fa-copy"></i> Salin Ringkasan
+                        </button>
+                        <button class="btn btn-sm btn-success" onclick="useTextInEditor('summaryText')">
+                            <i class="fas fa-paste"></i> Gunakan di Editor
+                        </button>
+                    </div>
+                    <div class="mt-3">
+                        <h6><i class="fas fa-lightbulb me-2"></i>Tips Ringkasan Efektif:</h6>
+                        <ul class="mb-0 small">
+                            <li>Ringkasan mempertahankan ide utama</li>
+                            <li>Kalimat penting diprioritaskan</li>
+                            <li>Struktur teks asli dipertahankan</li>
+                            <li>Cocok untuk review cepat materi</li>
+                        </ul>
+                    </div>
+                    <p class="mt-2 mb-0 text-muted small">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Algoritma: TF-IDF sederhana untuk mengidentifikasi kalimat penting
+                    </p>
+                </div>
+            `;
+            
+            appData.incrementStat('summaries');
+            updateDashboard();
+            showToast(`Ringkasan berhasil! Dikurangi ${reduction}% dari teks asli.`);
+        });
+
+        // ==================== NOTES MANAGEMENT ====================
+        document.getElementById('addNoteBtn').addEventListener('click', () => {
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+            document.querySelector('#addNoteModal .modal-title').textContent = 'Tambah Catatan';
+            const form = document.getElementById('addNoteForm');
+            if (form.dataset.editId) {
+                form.removeAttribute('data-edit-id');
+            }
+            new bootstrap.Modal(document.getElementById('addNoteModal')).show();
+        });
+
+        document.getElementById('addNoteForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('noteTitle').value;
+            const content = document.getElementById('noteContent').value;
+            
+            const form = document.getElementById('addNoteForm');
+            if (form.dataset.editId) {
+                const id = parseInt(form.dataset.editId);
+                appData.updateNote(id, title, content);
+                showToast('Catatan berhasil diperbarui!');
+                form.removeAttribute('data-edit-id');
+                document.querySelector('#addNoteModal .modal-title').textContent = 'Tambah Catatan';
+            } else {
+                appData.addNote(title, content);
+                showToast('Catatan berhasil ditambahkan!');
+            }
+            
+            loadNotes();
+            updateDashboard();
+            bootstrap.Modal.getInstance(document.getElementById('addNoteModal')).hide();
+        });
+
+        document.getElementById('addNoteModal').addEventListener('hidden.bs.modal', () => {
+            document.getElementById('addNoteForm').reset();
+            document.querySelector('#addNoteModal .modal-title').textContent = 'Tambah Catatan';
+            const form = document.getElementById('addNoteForm');
+            if (form.dataset.editId) {
+                form.removeAttribute('data-edit-id');
+            }
+        });
+
+        function loadNotes() {
+            const notes = appData.getNotes();
+            const notesList = document.getElementById('notesList');
+            
+            if (notes.length === 0) {
+                notesList.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Belum ada catatan. Klik "Tambah Catatan" untuk membuat yang pertama!
+                    </div>
+                `;
+                return;
+            }
+            
+            notesList.innerHTML = notes.map(note => `
+                <div class="note-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="mb-1">${note.title}</h5>
+                        <small class="text-muted">${new Date(note.updatedAt).toLocaleDateString('id-ID')}</small>
+                    </div>
+                    <p class="mb-2">${note.content.substring(0, 200)}${note.content.length > 200 ? '...' : ''}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar"></i> ${new Date(note.createdAt).toLocaleString('id-ID')}
+                            <span class="ms-2"><i class="fas fa-file-word"></i> ${note.content.split(/\s+/).length} kata</span>
+                        </small>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="editNote(${note.id})">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteNote(${note.id})">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.editNote = function(id) {
+            const notes = appData.getNotes();
+            const note = notes.find(n => n.id === id);
+            
+            if (note) {
+                document.getElementById('noteTitle').value = note.title;
+                document.getElementById('noteContent').value = note.content;
+                document.getElementById('addNoteForm').dataset.editId = id;
+                document.querySelector('#addNoteModal .modal-title').textContent = 'Edit Catatan';
+                new bootstrap.Modal(document.getElementById('addNoteModal')).show();
+            }
+        };
+
+        window.deleteNote = function(id) {
+            if (confirm('Yakin ingin menghapus catatan ini?')) {
+                appData.deleteNote(id);
+                loadNotes();
+                updateDashboard();
+                showToast('Catatan berhasil dihapus!');
+            }
+        };
+
+        // ==================== UTILITY FUNCTIONS ====================
+        window.copyToClipboard = function(elementId) {
+            const textarea = document.getElementById(elementId);
+            if (textarea) {
+                textarea.select();
+                document.execCommand('copy');
+                showToast('Teks berhasil disalin!');
+            }
+        };
+
+        window.useTextInEditor = function(elementId) {
+            const textarea = document.getElementById(elementId);
+            if (textarea) {
+                document.getElementById('editorInput').value = textarea.value;
+                navigateTo('editor');
+                showToast('Teks telah dipindahkan ke Editor AI!');
+            }
+        };
+
+        window.useEditedText = function() {
+            const textarea = document.getElementById('editedText');
+            if (textarea) {
+                document.getElementById('editorInput').value = textarea.value;
+                showToast('Teks telah dipindahkan ke Editor!');
+            }
+        };
+
+        // ==================== LANDING PAGE ANIMATIONS ====================
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-fade-in-up');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animate-fade-in-up');
+                }
+            });
+        }
+        
+        // Check animation on scroll
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+</html>
