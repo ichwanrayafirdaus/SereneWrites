@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serene Writes - AI Writing Assistant untuk Dosen</title>
+    <title>Serene Writes - AI Writing Assistant untuk Mahasiswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #64b5f6; /* Biru muda untuk kontras */
+            --primary-blue: #64b5f6;
             --secondary-blue: #90caf9;
             --accent-blue: #42a5f5;
             --light-blue: #e3f2fd;
             --white: #ffffff;
             --text-light: #ffffff;
-            --text-dark: #1a237e; /* Biru tua untuk teks kontras */
+            --text-dark: #1a237e;
             --app-primary-blue: #1e88e5;
             --app-secondary-blue: #42a5f5;
             --light-bg: #f8f9fa;
+            --serenid-primary: #1a365d;
+            --serenid-secondary: #2c5282;
         }
         
         /* GLOBAL STYLES */
@@ -44,7 +46,7 @@
             background-color: var(--primary-blue);
         }
         
-        /* Batik Mega Mendung Pattern - Lebih halus dan kontras */
+        /* Batik Mega Mendung Pattern */
         .mega-mendung-bg {
             background-color: var(--primary-blue);
             background-image: 
@@ -221,7 +223,7 @@
             font-weight: 500;
         }
         
-        /* Updated CTA Section - Mirip dengan gambar batik Mega Mendung */
+        /* CTA Section */
         .cta-section {
             padding: 5rem 0;
             background-color: rgba(66, 165, 245, 0.9);
@@ -361,10 +363,6 @@
             background-color: var(--light-bg);
         }
         
-        .batik-pattern {
-            background-image: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="batik" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="15" fill="%231e88e5" opacity="0.05"/><circle cx="75" cy="75" r="15" fill="%231e88e5" opacity="0.05"/><path d="M 25 25 Q 50 10, 75 25" stroke="%231e88e5" fill="none" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23batik)"/></svg>');
-        }
-        
         .app-header {
             background: linear-gradient(135deg, var(--app-primary-blue), var(--app-secondary-blue));
             color: white;
@@ -499,20 +497,6 @@
             border-radius: 10px;
         }
         
-        .loading-spinner {
-            display: inline-block;
-            width: 1rem;
-            height: 1rem;
-            border: 2px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
         .page-content {
             animation: fadeIn 0.5s ease;
         }
@@ -580,6 +564,28 @@
             color: var(--text-dark);
         }
         
+        /* SerenId Feature Styles - Renamed to Idea Generator */
+        .idea-generator-card {
+            border-left: 4px solid var(--serenid-primary) !important;
+        }
+        
+        .idea-generator-badge {
+            background-color: var(--serenid-primary);
+            color: white;
+        }
+        
+        .btn-idea-generator {
+            background-color: var(--serenid-primary);
+            border-color: var(--serenid-primary);
+            color: white;
+        }
+        
+        .btn-idea-generator:hover {
+            background-color: var(--serenid-secondary);
+            border-color: var(--serenid-secondary);
+            color: white;
+        }
+        
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -594,6 +600,91 @@
         
         .animate-fade-in-up {
             animation: fadeInUp 0.8s ease-out;
+        }
+        
+        /* History System Styles */
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .history-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid #f1f1f1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .history-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-date {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        .history-content {
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .history-type {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .history-type-editor { background-color: #e3f2fd; color: var(--app-primary-blue); }
+        .history-type-paraphrase { background-color: #e8f5e9; color: #2e7d32; }
+        .history-type-plagiarism { background-color: #fff3e0; color: #f57c00; }
+        .history-type-summarizer { background-color: #f3e5f5; color: #7b1fa2; }
+        .history-type-idea { background-color: #e8eaf6; color: var(--serenid-primary); }
+        .history-type-note { background-color: #f5f5f5; color: #424242; }
+        
+        .history-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .history-btn {
+            padding: 0.1rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        .empty-history {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+        
+        .history-filter {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .history-filter-btn {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 15px;
         }
         
         /* Responsive Styles */
@@ -637,6 +728,10 @@
             
             .stat-number {
                 font-size: 2rem;
+            }
+            
+            .history-filter {
+                justify-content: center;
             }
         }
     </style>
@@ -883,21 +978,21 @@
                         </div>
                     </div>
                     
-                    <!-- Feature 6 -->
+                    <!-- Feature 6 - GENERATOR IDE (REMOVED SEREN ID TEXT) -->
                     <div class="col-lg-4 col-md-6 animate-fade-in-up" style="animation-delay: 0.6s;">
                         <div class="landing-feature-card">
                             <div class="feature-icon">
-                                <i class="fas fa-chart-line"></i>
+                                <i class="fas fa-lightbulb"></i>
                             </div>
-                            <h3 class="feature-title">Analitik Menulis</h3>
+                            <h3 class="feature-title">Generator Ide</h3>
                             <p class="feature-description">
-                                Pantau perkembangan menulis Anda dengan statistik detail. Dapatkan wawasan tentang 
-                                kebiasaan menulis dan area perbaikan.
+                                Ekstrak kata kunci, buat ringkasan, dan hasilkan ide tulisan akademik dari teks yang Anda masukkan.
                             </p>
                             <ul class="list-unstyled">
-                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Statistik produktivitas</li>
-                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Analisis kompleksitas tulisan</li>
-                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Pelacakan kemajuan</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Ekstraksi kata kunci otomatis</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Generator ide kreatif</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Analisis kekuatan ide</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: var(--text-dark);"></i>Template kerangka tulisan</li>
                             </ul>
                         </div>
                     </div>
@@ -908,7 +1003,7 @@
         <!-- Batik Divider -->
         <div class="batik-divider"></div>
 
-        <!-- UPDATED CTA SECTION - Menggantikan bagian yang dihapus -->
+        <!-- CTA SECTION -->
         <section id="cta" class="cta-section">
             <div class="container">
                 <div class="cta-content animate-fade-in-up">
@@ -972,6 +1067,7 @@
                             <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Parafrase</a></li>
                             <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Cek Plagiarisme</a></li>
                             <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Peringkas</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none" style="color: var(--text-dark); opacity: 0.9;">Generator Ide</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-2 col-md-6 mb-4">
@@ -1001,6 +1097,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p class="mb-0" style="color: var(--text-dark);">&copy; 2023 Serene Writes. Hak cipta dilindungi.</p>
+                        <small style="color: var(--text-dark); opacity: 0.8;">Dilengkapi dengan fitur Generator Ide</small>
                     </div>
                     <div class="col-md-6 text-md-end">
                         <a href="#" class="text-decoration-none me-3" style="color: var(--text-dark); opacity: 0.9;">Kebijakan Privasi</a>
@@ -1011,10 +1108,10 @@
         </footer>
     </div>
 
-    <!-- AUTHENTICATION PAGES (Hidden by default) -->
+    <!-- AUTHENTICATION PAGES -->
     <!-- Login Page -->
     <div id="loginPage" class="auth-container hidden">
-        <div class="auth-card batik-pattern">
+        <div class="auth-card">
             <div class="text-center mb-4">
                 <div class="logo-text">Serene Writes</div>
                 <p class="text-muted">AI Writing Assistant untuk Mahasiswa</p>
@@ -1052,7 +1149,7 @@
 
     <!-- Register Page -->
     <div id="registerPage" class="auth-container hidden">
-        <div class="auth-card batik-pattern">
+        <div class="auth-card">
             <div class="text-center mb-4">
                 <div class="logo-text">Serene Writes</div>
                 <p class="text-muted">Daftar Akun Baru</p>
@@ -1091,7 +1188,7 @@
 
     <!-- Forgot Password Page -->
     <div id="forgotPasswordPage" class="auth-container hidden">
-        <div class="auth-card batik-pattern">
+        <div class="auth-card">
             <div class="text-center mb-4">
                 <div class="logo-text">Serene Writes</div>
                 <p class="text-muted">Reset Password</p>
@@ -1114,7 +1211,7 @@
         </div>
     </div>
 
-    <!-- MAIN APPLICATION (Hidden by default) -->
+    <!-- MAIN APPLICATION -->
     <div id="mainApp" class="hidden app-page">
         <!-- Header -->
         <header class="app-header">
@@ -1122,6 +1219,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <h3 class="mb-0"><i class="fas fa-pen-fancy"></i> Serene Writes</h3>
+                        <small class="text-white-50">AI Writing Assistant</small>
                     </div>
                     <div class="col-md-6 text-end">
                         <span class="me-3" id="userNameDisplay"></span>
@@ -1167,6 +1265,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-page="summarizer">
                                 <i class="fas fa-compress-alt"></i> Summarizer
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-page="generatoride">
+                                <i class="fas fa-lightbulb"></i> Generator Ide
                             </a>
                         </li>
                         <li class="nav-item">
@@ -1220,9 +1323,9 @@
                             <div class="mb-3">
                                 <label class="form-label">Masukkan Teks</label>
                                 <textarea class="form-control" id="editorInput" 
-                                          placeholder="Ketik atau tempel teks Anda di sini..."></textarea>
+                                          rows="10" placeholder="Ketik atau tempel teks Anda di sini..."></textarea>
                             </div>
-                            <div class="d-flex gap-2 mb-3">
+                            <div class="d-flex gap-2 mb-3 flex-wrap">
                                 <button class="btn btn-primary" id="autoEditBtn">
                                     <i class="fas fa-magic"></i> Edit Otomatis
                                 </button>
@@ -1244,7 +1347,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Teks Asli</label>
                                 <textarea class="form-control" id="paraphraseInput" 
-                                          placeholder="Masukkan teks yang ingin diparafrasekan..."></textarea>
+                                          rows="8" placeholder="Masukkan teks yang ingin diparafrasekan..."></textarea>
                             </div>
                             <button class="btn btn-primary" id="paraphraseBtn">
                                 <i class="fas fa-sync-alt"></i> Parafrase
@@ -1260,7 +1363,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Teks untuk Dicek</label>
                                 <textarea class="form-control" id="plagiarismInput" 
-                                          placeholder="Masukkan teks untuk dicek plagiarisme..."></textarea>
+                                          rows="8" placeholder="Masukkan teks untuk dicek plagiarisme..."></textarea>
                             </div>
                             <button class="btn btn-primary" id="checkPlagiarismBtn">
                                 <i class="fas fa-shield-alt"></i> Cek Plagiarisme
@@ -1276,12 +1379,119 @@
                             <div class="mb-3">
                                 <label class="form-label">Teks Panjang</label>
                                 <textarea class="form-control" id="summarizerInput" 
-                                          placeholder="Masukkan teks panjang untuk dirangkum..."></textarea>
+                                          rows="10" placeholder="Masukkan teks panjang untuk dirangkum..."></textarea>
                             </div>
                             <button class="btn btn-primary" id="summarizeBtn">
                                 <i class="fas fa-compress-alt"></i> Rangkum
                             </button>
                             <div class="mt-4" id="summarizerResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Generator Ide Page - REMOVED SEREN ID TEXT -->
+                    <div id="generatoridePage" class="page-content hidden">
+                        <h2 class="mb-4">Generator Ide</h2>
+                        <div class="feature-card idea-generator-card">
+                            <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                    <h5 class="mb-3">Input Teks</h5>
+                                    <p class="text-muted small mb-3">Masukkan teks artikel, materi kuliah, atau jurnal yang ingin Anda olah</p>
+                                    <textarea id="generatorideTextInput" class="form-control" rows="12" placeholder="Ketik atau tempel teks di sini..."></textarea>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <button class="btn btn-outline-secondary btn-sm" id="generatorideClearText">Hapus Teks</button>
+                                        <button class="btn btn-idea-generator btn-sm" id="generatorideProcessText">Proses Teks</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6 mb-4">
+                                    <h5 class="mb-3">Hasil Analisis</h5>
+                                    
+                                    <!-- Keywords -->
+                                    <div class="mb-4">
+                                        <h6>Kata Kunci</h6>
+                                        <div id="generatorideKeywordsContainer" class="mb-3">
+                                            <p class="text-muted small">Kata kunci akan muncul di sini setelah teks diproses</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Text Summary -->
+                                    <div class="mb-4">
+                                        <h6>Ringkasan Teks</h6>
+                                        <div id="generatorideSummaryContainer">
+                                            <p class="text-muted small">Ringkasan akan muncul di sini setelah teks diproses</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Idea Generator -->
+                                    <div class="mb-4">
+                                        <h6>Generator Ide</h6>
+                                        <div id="generatorideIdeaContainer">
+                                            <p class="text-muted small">Ide akan muncul di sini setelah teks diproses</p>
+                                        </div>
+                                        
+                                        <!-- Idea Direction -->
+                                        <div class="mt-3">
+                                            <label class="form-label">Arah Ide:</label>
+                                            <div class="btn-group w-100" role="group">
+                                                <input type="radio" class="btn-check" name="generatoride-idea-direction" id="generatoride-descriptive" autocomplete="off" checked>
+                                                <label class="btn btn-outline-idea-generator" for="generatoride-descriptive">Deskriptif</label>
+                                                
+                                                <input type="radio" class="btn-check" name="generatoride-idea-direction" id="generatoride-analytical" autocomplete="off">
+                                                <label class="btn btn-outline-idea-generator" for="generatoride-analytical">Analitis</label>
+                                                
+                                                <input type="radio" class="btn-check" name="generatoride-idea-direction" id="generatoride-solution" autocomplete="off">
+                                                <label class="btn btn-outline-idea-generator" for="generatoride-solution">Solutif</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Auto Title -->
+                                        <div class="mt-3">
+                                            <label class="form-label">Judul Otomatis:</label>
+                                            <div id="generatorideTitleContainer">
+                                                <p class="text-muted small">Judul akan muncul di sini</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Idea Strength Meter -->
+                                        <div class="mt-3">
+                                            <label class="form-label">Kekuatan Ide:</label>
+                                            <div class="strength-meter mb-2">
+                                                <div id="generatorideStrengthFill" class="strength-fill" style="width: 0%"></div>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <small id="generatorideStrengthText">Belum diukur</small>
+                                                <small id="generatorideStrengthScore">0/100</small>
+                                            </div>
+                                            <div id="generatorideStrengthFeedback" class="mt-2">
+                                                <p class="text-muted small">Masukkan teks untuk mengevaluasi kekuatan ide</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Save Idea Button -->
+                                        <div class="mt-4">
+                                            <button class="btn btn-idea-generator w-100" id="generatorideSaveIdea">Simpan Ide</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Template Outline -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5 class="mb-3">Template Kerangka Tulisan</h5>
+                                    <div id="generatorideOutlineContainer">
+                                        <p class="text-muted small">Template kerangka akan muncul di sini setelah ide disimpan</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- History Section -->
+                        <div class="feature-card idea-generator-card mt-4">
+                            <h5 class="mb-3">Riwayat Ide Tersimpan</h5>
+                            <div id="generatorideHistoryContainer">
+                                <p class="text-muted text-center py-4">Belum ada ide yang disimpan. Proses teks untuk menyimpan ide pertama Anda.</p>
+                            </div>
                         </div>
                     </div>
 
@@ -1362,11 +1572,226 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // ==================== HISTORY SYSTEM ====================
+        class HistorySystem {
+            constructor(userId) {
+                this.userId = userId;
+                this.storageKey = `serene_history_${userId}`;
+                this.history = JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+            }
+
+            save() {
+                localStorage.setItem(this.storageKey, JSON.stringify(this.history));
+            }
+
+            addHistoryItem(type, content, result, metadata = {}) {
+                const item = {
+                    id: Date.now(),
+                    userId: this.userId,
+                    type: type,
+                    content: content.substring(0, 200),
+                    result: result.substring(0, 200),
+                    metadata: metadata,
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString('id-ID', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })
+                };
+
+                this.history.unshift(item);
+                
+                if (this.history.length > 50) {
+                    this.history = this.history.slice(0, 50);
+                }
+
+                this.save();
+                this.updateAllHistoryDisplays();
+                return item;
+            }
+
+            getHistoryByType(type) {
+                if (type === 'all') {
+                    return this.history;
+                }
+                return this.history.filter(item => item.type === type);
+            }
+
+            clearHistoryByType(type) {
+                if (type === 'all') {
+                    this.history = [];
+                } else {
+                    this.history = this.history.filter(item => item.type !== type);
+                }
+                this.save();
+                this.updateAllHistoryDisplays();
+            }
+
+            getHistoryItem(id) {
+                return this.history.find(item => item.id === id);
+            }
+
+            updateAllHistoryDisplays() {
+                this.updateDashboardHistory();
+                this.updateEditorHistory();
+                this.updateParaphraseHistory();
+                this.updatePlagiarismHistory();
+                this.updateSummarizerHistory();
+                this.updateIdeaHistory();
+                this.updateNotesHistory();
+            }
+
+            updateDashboardHistory() {
+                const container = document.getElementById('dashboardHistoryList');
+                if (!container) return;
+
+                const allHistory = this.getHistoryByType('all');
+                this.renderHistoryList(container, allHistory.slice(0, 10));
+            }
+
+            updateEditorHistory() {
+                const container = document.getElementById('editorHistoryList');
+                if (!container) return;
+
+                const editorHistory = this.getHistoryByType('editor');
+                this.renderHistoryList(container, editorHistory.slice(0, 10), 'editor');
+            }
+
+            updateParaphraseHistory() {
+                const container = document.getElementById('paraphraseHistoryList');
+                if (!container) return;
+
+                const paraphraseHistory = this.getHistoryByType('paraphrase');
+                this.renderHistoryList(container, paraphraseHistory.slice(0, 10), 'paraphrase');
+            }
+
+            updatePlagiarismHistory() {
+                const container = document.getElementById('plagiarismHistoryList');
+                if (!container) return;
+
+                const plagiarismHistory = this.getHistoryByType('plagiarism');
+                this.renderHistoryList(container, plagiarismHistory.slice(0, 10), 'plagiarism');
+            }
+
+            updateSummarizerHistory() {
+                const container = document.getElementById('summarizerHistoryList');
+                if (!container) return;
+
+                const summarizerHistory = this.getHistoryByType('summarizer');
+                this.renderHistoryList(container, summarizerHistory.slice(0, 10), 'summarizer');
+            }
+
+            updateIdeaHistory() {
+                const container = document.getElementById('ideaHistoryList');
+                if (!container) return;
+
+                const ideaHistory = this.getHistoryByType('idea');
+                this.renderHistoryList(container, ideaHistory.slice(0, 10), 'idea');
+            }
+
+            updateNotesHistory() {
+                const container = document.getElementById('notesHistoryList');
+                if (!container) return;
+
+                const notesHistory = this.getHistoryByType('note');
+                this.renderHistoryList(container, notesHistory.slice(0, 10), 'note');
+            }
+
+            renderHistoryList(container, items, type = null) {
+                if (!items || items.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-history">
+                            <i class="fas fa-clock fa-2x mb-3"></i>
+                            <p>Belum ada riwayat</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                items.forEach(item => {
+                    const typeClass = `history-type-${item.type}`;
+                    const typeLabel = this.getTypeLabel(item.type);
+                    
+                    html += `
+                        <div class="history-item" data-id="${item.id}">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <span class="history-type ${typeClass}">${typeLabel}</span>
+                                <span class="history-date">${item.date}</span>
+                            </div>
+                            <div class="history-content" title="${this.escapeHtml(item.content)}">
+                                <strong>Input:</strong> ${this.escapeHtml(item.content)}
+                            </div>
+                            ${item.result ? `
+                            <div class="history-content" title="${this.escapeHtml(item.result)}">
+                                <strong>Hasil:</strong> ${this.escapeHtml(item.result)}
+                            </div>
+                            ` : ''}
+                            ${item.metadata ? this.renderMetadata(item.metadata) : ''}
+                            <div class="history-actions">
+                                <button class="btn btn-sm btn-outline-primary history-btn" onclick="loadHistoryItem(${item.id})">
+                                    <i class="fas fa-redo"></i> Muat Ulang
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger history-btn" onclick="deleteHistoryItem(${item.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            }
+
+            renderMetadata(metadata) {
+                let html = '';
+                if (metadata.score) {
+                    html += `<div class="history-content"><strong>Skor:</strong> ${metadata.score}</div>`;
+                }
+                if (metadata.uniqueness) {
+                    html += `<div class="history-content"><strong>Keunikan:</strong> ${metadata.uniqueness}%</div>`;
+                }
+                if (metadata.reduction) {
+                    html += `<div class="history-content"><strong>Pengurangan:</strong> ${metadata.reduction}%</div>`;
+                }
+                if (metadata.strength) {
+                    html += `<div class="history-content"><strong>Kekuatan Ide:</strong> ${metadata.strength}/100</div>`;
+                }
+                if (metadata.keywords && Array.isArray(metadata.keywords)) {
+                    const keywordsStr = metadata.keywords.join(', ');
+                    html += `<div class="history-content" title="${keywordsStr}"><strong>Kata Kunci:</strong> ${keywordsStr.substring(0, 50)}${keywordsStr.length > 50 ? '...' : ''}</div>`;
+                }
+                return html;
+            }
+
+            getTypeLabel(type) {
+                const labels = {
+                    'editor': 'Editor AI',
+                    'paraphrase': 'Parafrase',
+                    'plagiarism': 'Cek Plagiarisme',
+                    'summarizer': 'Summarizer',
+                    'idea': 'Generator Ide',
+                    'note': 'Catatan'
+                };
+                return labels[type] || type;
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        }
+
         // ==================== AUTHENTICATION SYSTEM ====================
         class AuthSystem {
             constructor() {
-                this.users = JSON.parse(localStorage.getItem('users') || '[]');
-                this.currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                this.users = JSON.parse(localStorage.getItem('serene_users') || '[]');
+                this.currentUser = JSON.parse(localStorage.getItem('serene_current_user') || 'null');
             }
 
             hashPassword(password) {
@@ -1388,10 +1813,16 @@
                     name,
                     email,
                     password: this.hashPassword(password),
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
+                    stats: {
+                        paraphrase: 0,
+                        summaries: 0,
+                        notes: 0,
+                        ideas: 0
+                    }
                 };
                 this.users.push(user);
-                localStorage.setItem('users', JSON.stringify(this.users));
+                localStorage.setItem('serene_users', JSON.stringify(this.users));
                 return { success: true, message: 'Registrasi berhasil!' };
             }
 
@@ -1401,22 +1832,17 @@
                     return { success: false, message: 'Email atau password salah!' };
                 }
                 this.currentUser = user;
-                if (remember) {
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                } else {
-                    sessionStorage.setItem('currentUser', JSON.stringify(user));
-                }
+                localStorage.setItem('serene_current_user', JSON.stringify(user));
                 return { success: true, user };
             }
 
             logout() {
                 this.currentUser = null;
-                localStorage.removeItem('currentUser');
-                sessionStorage.removeItem('currentUser');
+                localStorage.removeItem('serene_current_user');
             }
 
             isLoggedIn() {
-                return this.currentUser !== null || sessionStorage.getItem('currentUser') !== null;
+                return this.currentUser !== null;
             }
 
             updateProfile(name, email, password) {
@@ -1430,8 +1856,8 @@
                 }
                 
                 this.currentUser = this.users[userIndex];
-                localStorage.setItem('users', JSON.stringify(this.users));
-                localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                localStorage.setItem('serene_users', JSON.stringify(this.users));
+                localStorage.setItem('serene_current_user', JSON.stringify(this.currentUser));
                 return { success: true, message: 'Profil berhasil diupdate!' };
             }
 
@@ -1442,14 +1868,34 @@
                 }
                 return { success: true, message: 'Link reset password telah dikirim ke email Anda!' };
             }
+
+            incrementStat(stat) {
+                const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+                if (userIndex !== -1) {
+                    if (!this.users[userIndex].stats) {
+                        this.users[userIndex].stats = { paraphrase: 0, summaries: 0, notes: 0, ideas: 0 };
+                    }
+                    if (!this.users[userIndex].stats[stat]) {
+                        this.users[userIndex].stats[stat] = 0;
+                    }
+                    this.users[userIndex].stats[stat]++;
+                    this.currentUser = this.users[userIndex];
+                    localStorage.setItem('serene_users', JSON.stringify(this.users));
+                    localStorage.setItem('serene_current_user', JSON.stringify(this.currentUser));
+                }
+            }
+
+            getStats() {
+                return this.currentUser?.stats || { paraphrase: 0, summaries: 0, notes: 0, ideas: 0 };
+            }
         }
 
         // ==================== APPLICATION DATA MANAGER ====================
         class AppData {
             constructor(userId) {
                 this.userId = userId;
-                this.storageKey = `appData_${userId}`;
-                this.data = JSON.parse(localStorage.getItem(this.storageKey) || '{"notes": [], "stats": {"paraphrase": 0, "summaries": 0}}');
+                this.storageKey = `serene_appData_${userId}`;
+                this.data = JSON.parse(localStorage.getItem(this.storageKey) || '{"notes": [], "ideas": []}');
             }
 
             save() {
@@ -1485,17 +1931,29 @@
             }
 
             getNotes() {
-                return this.data.notes;
+                return this.data.notes || [];
             }
 
-            incrementStat(stat) {
-                if (!this.data.stats[stat]) this.data.stats[stat] = 0;
-                this.data.stats[stat]++;
+            addIdea(idea) {
+                idea.id = Date.now();
+                idea.userId = this.userId;
+                idea.date = new Date().toISOString();
+                this.data.ideas.push(idea);
+                this.save();
+                return idea;
+            }
+
+            deleteIdea(id) {
+                this.data.ideas = this.data.ideas.filter(i => i.id !== id);
                 this.save();
             }
 
-            getStats() {
-                return this.data.stats;
+            getIdeas() {
+                return this.data.ideas || [];
+            }
+
+            getIdea(id) {
+                return this.data.ideas.find(i => i.id === id);
             }
         }
 
@@ -1523,33 +1981,312 @@
             });
             document.getElementById(pageId).classList.remove('hidden');
             
-            // Smooth scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ==================== INITIALIZATION ====================
+        // ==================== GLOBAL VARIABLES ====================
         const auth = new AuthSystem();
         let appData = null;
+        let historySystem = null;
 
-        // Check login status on load
-        window.addEventListener('DOMContentLoaded', () => {
-            // Show landing page by default
-            showPage('landingPage');
+        // ==================== HISTORY CONTAINERS CREATION ====================
+        function createHistoryContainers() {
+            // Dashboard Page History
+            const dashboardPage = document.getElementById('dashboardPage');
+            if (dashboardPage && !document.getElementById('dashboardHistoryList')) {
+                const historyHTML = `
+                    <div class="feature-card mt-4">
+                        <div class="history-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Terbaru</h5>
+                            <button class="btn btn-sm btn-outline-primary" onclick="clearAllHistory()">
+                                <i class="fas fa-trash"></i> Hapus Semua
+                            </button>
+                        </div>
+                        <div class="history-filter">
+                            <button class="btn btn-sm history-filter-btn btn-primary active" data-filter="all">Semua</button>
+                            <button class="btn btn-sm history-filter-btn btn-outline-primary" data-filter="editor">Editor</button>
+                            <button class="btn btn-sm history-filter-btn btn-outline-success" data-filter="paraphrase">Parafrase</button>
+                            <button class="btn btn-sm history-filter-btn btn-outline-warning" data-filter="plagiarism">Plagiarisme</button>
+                            <button class="btn btn-sm history-filter-btn btn-outline-info" data-filter="summarizer">Summarizer</button>
+                            <button class="btn btn-sm history-filter-btn btn-outline-dark" data-filter="idea">Ide</button>
+                        </div>
+                        <div id="dashboardHistoryList" style="max-height: 300px; overflow-y: auto;">
+                            <div class="empty-history">
+                                <i class="fas fa-clock fa-2x mb-3"></i>
+                                <p>Belum ada riwayat aktivitas</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                const dashboardContent = document.getElementById('dashboardContent');
+                if (dashboardContent) {
+                    dashboardContent.insertAdjacentHTML('afterend', historyHTML);
+                }
+            }
+
+            // Editor Page History
+            const editorPage = document.getElementById('editorPage');
+            if (editorPage && !document.getElementById('editorHistoryList')) {
+                const historyHTML = `
+                    <div class="feature-card mt-4">
+                        <div class="history-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Editing</h5>
+                            <button class="btn btn-sm btn-outline-primary" onclick="clearHistory('editor')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                        <div id="editorHistoryList" style="max-height: 300px; overflow-y: auto;">
+                            <div class="empty-history">
+                                <i class="fas fa-clock fa-2x mb-3"></i>
+                                <p>Belum ada riwayat editing</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                editorPage.insertAdjacentHTML('beforeend', historyHTML);
+            }
+
+            // Paraphrase Page History
+            const paraphrasePage = document.getElementById('paraphrasePage');
+            if (paraphrasePage && !document.getElementById('paraphraseHistoryList')) {
+                const historyHTML = `
+                    <div class="feature-card mt-4">
+                        <div class="history-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Parafrase</h5>
+                            <button class="btn btn-sm btn-outline-success" onclick="clearHistory('paraphrase')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                        <div id="paraphraseHistoryList" style="max-height: 300px; overflow-y: auto;">
+                            <div class="empty-history">
+                                <i class="fas fa-clock fa-2x mb-3"></i>
+                                <p>Belum ada riwayat parafrase</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                paraphrasePage.insertAdjacentHTML('beforeend', historyHTML);
+            }
+
+            // Plagiarism Page History
+            const plagiarismPage = document.getElementById('plagiarismPage');
+            if (plagiarismPage && !document.getElementById('plagiarismHistoryList')) {
+                const historyHTML = `
+                    <div class="feature-card mt-4">
+                        <div class="history-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Cek Plagiarisme</h5>
+                            <button class="btn btn-sm btn-outline-warning" onclick="clearHistory('plagiarism')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                        <div id="plagiarismHistoryList" style="max-height: 300px; overflow-y: auto;">
+                            <div class="empty-history">
+                                <i class="fas fa-clock fa-2x mb-3"></i>
+                                <p>Belum ada riwayat cek plagiarisme</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                plagiarismPage.insertAdjacentHTML('beforeend', historyHTML);
+            }
+
+            // Summarizer Page History
+            const summarizerPage = document.getElementById('summarizerPage');
+            if (summarizerPage && !document.getElementById('summarizerHistoryList')) {
+                const historyHTML = `
+                    <div class="feature-card mt-4">
+                        <div class="history-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Summarizer</h5>
+                            <button class="btn btn-sm btn-outline-info" onclick="clearHistory('summarizer')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                        <div id="summarizerHistoryList" style="max-height: 300px; overflow-y: auto;">
+                            <div class="empty-history">
+                                <i class="fas fa-clock fa-2x mb-3"></i>
+                                <p>Belum ada riwayat summarizer</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                summarizerPage.insertAdjacentHTML('beforeend', historyHTML);
+            }
+
+            // Generator Ide Page History
+            const generatoridePage = document.getElementById('generatoridePage');
+            if (generatoridePage && !document.getElementById('ideaHistoryList')) {
+                const historyHTML = `
+                    <div class="feature-card mt-4">
+                        <div class="history-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Generator Ide</h5>
+                            <button class="btn btn-sm btn-outline-dark" onclick="clearHistory('idea')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                        <div id="ideaHistoryList" style="max-height: 300px; overflow-y: auto;">
+                            <div class="empty-history">
+                                <i class="fas fa-clock fa-2x mb-3"></i>
+                                <p>Belum ada riwayat generator ide</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                generatoridePage.insertAdjacentHTML('beforeend', historyHTML);
+            }
+
+            // Notes Page History
+            const notesPage = document.getElementById('notesPage');
+            if (notesPage && !document.getElementById('notesHistoryList')) {
+                const historyHTML = `
+                    <div class="feature-card mt-4">
+                        <div class="history-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Catatan</h5>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="clearHistory('note')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                        <div id="notesHistoryList" style="max-height: 300px; overflow-y: auto;">
+                            <div class="empty-history">
+                                <i class="fas fa-clock fa-2x mb-3"></i>
+                                <p>Belum ada riwayat catatan</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                notesPage.insertAdjacentHTML('beforeend', historyHTML);
+            }
+
+            // Setup event listeners for filter buttons
+            setTimeout(() => {
+                setupHistoryFilters();
+            }, 100);
+        }
+
+        // ==================== HISTORY MANAGEMENT FUNCTIONS ====================
+        function setupHistoryFilters() {
+            document.querySelectorAll('.history-filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.history-filter-btn').forEach(b => {
+                        b.classList.remove('active', 'btn-primary');
+                        b.classList.add('btn-outline-primary');
+                    });
+                    
+                    this.classList.add('active', 'btn-primary');
+                    this.classList.remove('btn-outline-primary');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    filterDashboardHistory(filter);
+                });
+            });
+        }
+
+        function filterDashboardHistory(filter) {
+            if (!historySystem) return;
             
-            // Check if user is already logged in
-            if (auth.isLoggedIn()) {
-                const user = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser'));
-                auth.currentUser = user;
-                appData = new AppData(user.id);
-                showMainApp();
+            const container = document.getElementById('dashboardHistoryList');
+            const items = historySystem.getHistoryByType(filter);
+            
+            if (!items || items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-history">
+                        <i class="fas fa-clock fa-2x mb-3"></i>
+                        <p>Belum ada riwayat ${filter}</p>
+                    </div>
+                `;
+                return;
             }
             
-            // Initialize landing page animations
+            historySystem.renderHistoryList(container, items.slice(0, 10));
+        }
+
+        window.loadHistoryItem = function(id) {
+            if (!historySystem) return;
+            
+            const item = historySystem.getHistoryItem(id);
+            if (!item) {
+                showToast('Riwayat tidak ditemukan!', 'warning');
+                return;
+            }
+
+            switch(item.type) {
+                case 'editor':
+                    document.getElementById('editorInput').value = item.content;
+                    navigateTo('editor');
+                    showToast('Teks editor berhasil dimuat ulang!');
+                    break;
+                    
+                case 'paraphrase':
+                    document.getElementById('paraphraseInput').value = item.content;
+                    navigateTo('paraphrase');
+                    showToast('Teks parafrase berhasil dimuat ulang!');
+                    break;
+                    
+                case 'plagiarism':
+                    document.getElementById('plagiarismInput').value = item.content;
+                    navigateTo('plagiarism');
+                    showToast('Teks cek plagiarisme berhasil dimuat ulang!');
+                    break;
+                    
+                case 'summarizer':
+                    document.getElementById('summarizerInput').value = item.content;
+                    navigateTo('summarizer');
+                    showToast('Teks summarizer berhasil dimuat ulang!');
+                    break;
+                    
+                case 'idea':
+                    showToast('Untuk memuat ulang ide, gunakan fitur Generator Ide', 'info');
+                    navigateTo('generatoride');
+                    break;
+                    
+                case 'note':
+                    showToast('Catatan dapat dilihat di halaman Catatan Saya', 'info');
+                    navigateTo('notes');
+                    break;
+            }
+        };
+
+        window.deleteHistoryItem = function(id) {
+            if (!historySystem || !confirm('Hapus item riwayat ini?')) return;
+            
+            historySystem.history = historySystem.history.filter(item => item.id !== id);
+            historySystem.save();
+            historySystem.updateAllHistoryDisplays();
+            
+            showToast('Riwayat berhasil dihapus!');
+        };
+
+        window.clearHistory = function(type) {
+            if (!historySystem || !confirm(`Hapus semua riwayat ${type}?`)) return;
+            
+            historySystem.clearHistoryByType(type);
+            showToast(`Riwayat ${type} berhasil dihapus!`);
+        };
+
+        window.clearAllHistory = function() {
+            if (!historySystem || !confirm('Hapus semua riwayat?')) return;
+            
+            historySystem.clearHistoryByType('all');
+            showToast('Semua riwayat berhasil dihapus!');
+        };
+
+        // ==================== INITIALIZATION ====================
+        window.addEventListener('DOMContentLoaded', () => {
+            showPage('landingPage');
+            
+            if (auth.isLoggedIn()) {
+                const user = JSON.parse(localStorage.getItem('serene_current_user'));
+                auth.currentUser = user;
+                appData = new AppData(user.id);
+                historySystem = new HistorySystem(user.id);
+                createHistoryContainers();
+                historySystem.updateAllHistoryDisplays();
+            }
+            
             animateOnScroll();
         });
 
         // ==================== LANDING PAGE FUNCTIONALITY ====================
-        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1569,7 +2306,6 @@
             });
         });
 
-        // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.landing-navbar');
             if (window.scrollY > 50) {
@@ -1581,7 +2317,6 @@
             }
         });
 
-        // Landing page button event handlers
         document.getElementById('goToLoginBtn').addEventListener('click', function(e) {
             e.preventDefault();
             showPage('loginPage');
@@ -1599,7 +2334,6 @@
 
         document.getElementById('learnMoreBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            // Scroll ke section features
             const featuresSection = document.getElementById('features');
             if (featuresSection) {
                 window.scrollTo({
@@ -1609,7 +2343,6 @@
             }
         });
 
-        // Back to landing page buttons
         document.getElementById('backToLanding').addEventListener('click', function(e) {
             e.preventDefault();
             showPage('landingPage');
@@ -1657,13 +2390,13 @@
             const password = document.getElementById('loginPassword').value;
             const remember = document.getElementById('rememberMe').checked;
             
-            // Demo account
             if (email === 'demo@example.com' && password === 'demo123') {
                 const demoUser = {
                     id: 999,
                     name: 'Demo User',
                     email: 'demo@example.com',
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
+                    stats: { paraphrase: 0, summaries: 0, notes: 0, ideas: 0 }
                 };
                 auth.currentUser = demoUser;
                 appData = new AppData(demoUser.id);
@@ -1725,6 +2458,50 @@
             document.getElementById('userNameDisplay').textContent = auth.currentUser.name;
             updateDashboard();
             loadNotes();
+            loadGeneratorIdeHistory();
+            
+            historySystem = new HistorySystem(auth.currentUser.id);
+            createHistoryContainers();
+            historySystem.updateAllHistoryDisplays();
+        }
+
+        function navigateTo(page) {
+            document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+            const pageLink = document.querySelector(`[data-page="${page}"]`);
+            if (pageLink) {
+                pageLink.classList.add('active');
+            }
+            
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            document.getElementById(page + 'Page').classList.remove('hidden');
+            
+            if (historySystem) {
+                setTimeout(() => {
+                    switch(page) {
+                        case 'editor':
+                            historySystem.updateEditorHistory();
+                            break;
+                        case 'paraphrase':
+                            historySystem.updateParaphraseHistory();
+                            break;
+                        case 'plagiarism':
+                            historySystem.updatePlagiarismHistory();
+                            break;
+                        case 'summarizer':
+                            historySystem.updateSummarizerHistory();
+                            break;
+                        case 'generatoride':
+                            historySystem.updateIdeaHistory();
+                            break;
+                        case 'notes':
+                            historySystem.updateNotesHistory();
+                            break;
+                        case 'dashboard':
+                            historySystem.updateDashboardHistory();
+                            break;
+                    }
+                }, 100);
+            }
         }
 
         // ==================== PROFILE MANAGEMENT ====================
@@ -1758,15 +2535,14 @@
                 document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 const page = link.getAttribute('data-page');
-                document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-                document.getElementById(page + 'Page').classList.remove('hidden');
+                navigateTo(page);
             });
         });
 
         // ==================== DASHBOARD ====================
         function updateDashboard() {
             const notes = appData.getNotes();
-            const stats = appData.getStats();
+            const stats = auth.getStats();
             const totalWords = notes.reduce((sum, note) => sum + (note.content.match(/\b\w+\b/g) || []).length, 0);
             
             document.getElementById('totalNotes').textContent = notes.length;
@@ -1790,6 +2566,7 @@
                                         <tr><td>Total Kata</td><td><strong>${totalWords.toLocaleString()}</strong></td></tr>
                                         <tr><td>Parafrase Dilakukan</td><td><strong>${stats.paraphrase || 0}</strong></td></tr>
                                         <tr><td>Ringkasan Dibuat</td><td><strong>${stats.summaries || 0}</strong></td></tr>
+                                        <tr><td>Ide Dihasilkan</td><td><strong>${stats.ideas || 0}</strong></td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -1805,6 +2582,9 @@
                                 </button>
                                 <button class="list-group-item list-group-item-action" onclick="navigateTo('summarizer')">
                                     <i class="fas fa-compress-alt me-2"></i>Summarizer
+                                </button>
+                                <button class="list-group-item list-group-item-action" onclick="navigateTo('generatoride')">
+                                    <i class="fas fa-lightbulb me-2"></i>Generator Ide
                                 </button>
                                 <button class="list-group-item list-group-item-action" onclick="navigateTo('notes')">
                                     <i class="fas fa-sticky-note me-2"></i>Catatan Saya
@@ -1824,33 +2604,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="alert alert-light">
-                                    <h6><i class="fas fa-sync-alt me-2"></i>Parafrase</h6>
-                                    <p class="mb-0">Parafrase teks untuk menghindari plagiarisme dan membuat tulisan lebih unik.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mt-3">
-                                <div class="alert alert-light">
-                                    <h6><i class="fas fa-compress-alt me-2"></i>Summarizer</h6>
-                                    <p class="mb-0">Rangkum teks panjang menjadi poin-poin penting dengan Summarizer.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mt-3">
-                                <div class="alert alert-light">
-                                    <h6><i class="fas fa-shield-alt me-2"></i>Cek Plagiarisme</h6>
-                                    <p class="mb-0">Periksa tingkat plagiarisme teks Anda sebelum mengumpulkan tugas.</p>
+                                    <h6><i class="fas fa-lightbulb me-2"></i>Generator Ide</h6>
+                                    <p class="mb-0">Hasilkan ide tulisan akademik dari teks dengan fitur Generator Ide.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
             }
-        }
-
-        function navigateTo(page) {
-            document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
-            document.querySelector(`[data-page="${page}"]`).classList.add('active');
-            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-            document.getElementById(page + 'Page').classList.remove('hidden');
         }
 
         // ==================== EDITOR AI ====================
@@ -1861,24 +2622,16 @@
                 return;
             }
             
-            // AI editing improvements
             let edited = input;
-            
-            // Fix capitalization
             edited = edited.toLowerCase().replace(/^\w|\.\s*\w/g, char => char.toUpperCase());
-            
-            // Fix spacing
             edited = edited.replace(/\s+/g, ' ').trim();
             
-            // Add punctuation if missing
             if (!/[.!?]$/.test(edited.trim())) {
                 edited = edited.trim() + '.';
             }
             
-            // Fix punctuation spacing
             edited = edited.replace(/\s*([.,!?;:])\s*/g, '$1 ');
             
-            // Fix common Indonesian abbreviations
             const corrections = {
                 'klo': 'kalau', 'yg': 'yang', 'tdk': 'tidak', 'bg': 'bagi',
                 'gk': 'tidak', 'dpt': 'dapat', 'tp': 'tapi', 'sbg': 'sebagai',
@@ -1909,6 +2662,14 @@
                     </p>
                 </div>
             `;
+            
+            if (historySystem) {
+                historySystem.addHistoryItem('editor', input, edited, {
+                    action: 'auto_edit',
+                    changes: 'kapitalisasi, ejaan, tanda baca'
+                });
+            }
+            
             showToast('Editing AI selesai!');
         });
 
@@ -1919,6 +2680,7 @@
                 return;
             }
             appData.addNote('Editor ' + new Date().toLocaleString(), content);
+            auth.incrementStat('notes');
             showToast('Berhasil disimpan ke catatan!');
             updateDashboard();
             loadNotes();
@@ -1942,14 +2704,11 @@
                 'mengatakan': ['menyatakan', 'mengungkapkan', 'berkata', 'mengucapkan'],
                 'membuat': ['menciptakan', 'menghasilkan', 'memproduksi', 'membentuk'],
                 'melihat': ['memandang', 'mengamati', 'menyaksikan', 'memperhatikan'],
-                'besar': ['luas', 'agung', 'jumbo', 'raksasa', 'besar'],
-                'kecil': ['mungil', 'mini', 'kerdil', 'kecil', 'sempit'],
-                'baik': ['bagus', 'unggul', 'terpuji', 'baik', 'bermanfaat'],
-                'buruk': ['jelek', 'tidak baik', 'negatif', 'buruk', 'merugikan'],
+                'besar': ['luas', 'agung', 'jumbo', 'raksasa'],
+                'kecil': ['mungil', 'mini', 'kerdil', 'sempit'],
                 'penting': ['utama', 'signifikan', 'krusial', 'vital', 'esensial'],
-                'cepat': ['gesit', 'tangkas', 'cepat', 'segera', 'lekas'],
-                'lambat': ['pelan', 'santai', 'lambat', 'tertunda', 'tersendat'],
-                'mahasiswa': ['pelajar', 'siswa perguruan tinggi', 'anak kuliahan', 'murid universitas'],
+                'cepat': ['gesit', 'tangkas', 'segera', 'lekas'],
+                'mahasiswa': ['pelajar', 'siswa perguruan tinggi', 'anak kuliahan'],
                 'tugas': ['pekerjaan', 'kewajiban', 'tugas kuliah', 'pekerjaan rumah'],
                 'belajar': ['mempelajari', 'menelaah', 'mengkaji', 'mendalami'],
                 'menulis': ['mengarang', 'menyusun', 'menggoreskan', 'merangkai kata']
@@ -1965,12 +2724,10 @@
                 }
             });
             
-            // Restructure sentences for variety
             const sentences = paraphrased.split(/[.!?]+/).filter(s => s.trim());
             paraphrased = sentences.map(sentence => {
                 const words = sentence.trim().split(' ');
                 if (words.length > 4) {
-                    // Move first word to end for variety
                     const firstWord = words.shift();
                     words.push(firstWord);
                     return words.join(' ');
@@ -1996,7 +2753,15 @@
                     </p>
                 </div>
             `;
-            appData.incrementStat('paraphrase');
+            
+            if (historySystem) {
+                historySystem.addHistoryItem('paraphrase', input, paraphrased, {
+                    uniqueness: uniqueness,
+                    technique: 'penggantian_sinonim_restrukturisasi'
+                });
+            }
+            
+            auth.incrementStat('paraphrase');
             updateDashboard();
             showToast(`Parafrase selesai! Tingkat keunikan: ${uniqueness}%`);
         });
@@ -2009,19 +2774,17 @@
                 return;
             }
             
-            // Simulate plagiarism check with different algorithms
             const wordCount = input.split(/\s+/).length;
             let plagiarismScore;
             
             if (wordCount < 50) {
-                plagiarismScore = Math.floor(Math.random() * 20); // Lower for short texts
+                plagiarismScore = Math.floor(Math.random() * 20);
             } else if (wordCount < 200) {
-                plagiarismScore = Math.floor(Math.random() * 30); // Medium for medium texts
+                plagiarismScore = Math.floor(Math.random() * 30);
             } else {
-                plagiarismScore = Math.floor(Math.random() * 40); // Higher for long texts
+                plagiarismScore = Math.floor(Math.random() * 40);
             }
             
-            // Ensure score is between 0-40
             plagiarismScore = Math.min(40, plagiarismScore);
             
             const status = plagiarismScore < 15 ? 'success' : plagiarismScore < 25 ? 'warning' : 'danger';
@@ -2059,6 +2822,15 @@
                     </p>
                 </div>
             `;
+            
+            if (historySystem) {
+                historySystem.addHistoryItem('plagiarism', input, `${plagiarismScore}% plagiarisme - ${statusText}`, {
+                    score: plagiarismScore,
+                    status: statusText,
+                    wordCount: wordCount
+                });
+            }
+            
             showToast('Cek plagiarisme selesai!');
         });
 
@@ -2076,29 +2848,23 @@
                 return;
             }
             
-            // Simple TF-IDF like algorithm for summarization
             const wordFrequency = {};
             const words = input.toLowerCase().match(/\b\w+\b/g) || [];
             words.forEach(word => {
                 wordFrequency[word] = (wordFrequency[word] || 0) + 1;
             });
             
-            // Score sentences based on word importance
             const sentenceScores = sentences.map(sentence => {
                 const sentenceWords = sentence.toLowerCase().match(/\b\w+\b/g) || [];
                 let score = 0;
-                const importantWords = [];
                 
                 sentenceWords.forEach(word => {
                     if (word.length > 3 && wordFrequency[word]) {
-                        // Words that appear less frequently are more important
                         const importance = 1 / wordFrequency[word];
                         score += importance;
-                        importantWords.push({word, importance});
                     }
                 });
                 
-                // Boost score for sentences that contain important keywords
                 const importantKeywords = ['kesimpulan', 'penting', 'utama', 'ringkasan', 'akhirnya', 'oleh karena itu'];
                 importantKeywords.forEach(keyword => {
                     if (sentence.toLowerCase().includes(keyword)) {
@@ -2106,7 +2872,6 @@
                     }
                 });
                 
-                // Longer sentences tend to be more informative
                 score += sentenceWords.length * 0.1;
                 
                 return { 
@@ -2116,20 +2881,16 @@
                 };
             });
             
-            // Sort sentences by score
             sentenceScores.sort((a, b) => b.score - a.score);
             
-            // Determine how many sentences to include in summary
             const summaryCount = Math.max(2, Math.ceil(sentences.length * 0.3));
             const maxSummarySentences = Math.min(summaryCount, 5);
             
-            // Get top sentences and sort them back to original order
             const summarySentences = sentenceScores
                 .slice(0, maxSummarySentences)
                 .map(s => s.sentence)
                 .sort((a, b) => sentences.indexOf(a) - sentences.indexOf(b));
             
-            // Create summary
             const summary = summarySentences.join('. ') + '.';
             const reduction = Math.round((1 - (summarySentences.length / sentences.length)) * 100);
             
@@ -2173,10 +2934,501 @@
                 </div>
             `;
             
-            appData.incrementStat('summaries');
+            if (historySystem) {
+                historySystem.addHistoryItem('summarizer', input, summary, {
+                    reduction: reduction,
+                    originalSentences: sentences.length,
+                    summarySentences: summarySentences.length,
+                    algorithm: 'tf-idf_simplified'
+                });
+            }
+            
+            auth.incrementStat('summaries');
             updateDashboard();
             showToast(`Ringkasan berhasil! Dikurangi ${reduction}% dari teks asli.`);
         });
+
+        // ==================== GENERATOR IDE FUNCTIONALITY ====================
+        let currentGeneratorIdeIdea = {
+            keywords: [],
+            summary: '',
+            generatedIdeas: [],
+            title: '',
+            strength: 0,
+            focusFeedback: '',
+            outline: '',
+            originalText: ''
+        };
+
+        document.getElementById('generatorideProcessText').addEventListener('click', function() {
+            const text = document.getElementById('generatorideTextInput').value.trim();
+            
+            if (text === '') {
+                showToast('Masukkan teks terlebih dahulu.', 'warning');
+                return;
+            }
+            
+            currentGeneratorIdeIdea = processGeneratorIdeText(text);
+            
+            displayGeneratorIdeKeywords(currentGeneratorIdeIdea.keywords);
+            displayGeneratorIdeSummary(currentGeneratorIdeIdea.summary);
+            displayGeneratorIdeGeneratedIdeas(currentGeneratorIdeIdea.generatedIdeas);
+            updateGeneratorIdeTitle();
+            updateGeneratorIdeStrengthMeter(currentGeneratorIdeIdea.strength);
+            displayGeneratorIdeOutline(currentGeneratorIdeIdea.outline);
+            
+            if (historySystem) {
+                const keywordsList = currentGeneratorIdeIdea.keywords.map(k => k.word);
+                historySystem.addHistoryItem('idea', text, currentGeneratorIdeIdea.summary, {
+                    strength: currentGeneratorIdeIdea.strength,
+                    keywords: keywordsList,
+                    ideasCount: currentGeneratorIdeIdea.generatedIdeas.length,
+                    focusFeedback: currentGeneratorIdeIdea.focusFeedback
+                });
+            }
+            
+            showToast('Teks berhasil diproses!', 'success');
+        });
+
+        document.getElementById('generatorideClearText').addEventListener('click', function() {
+            document.getElementById('generatorideTextInput').value = '';
+            resetGeneratorIdeResults();
+        });
+
+        function processGeneratorIdeText(text) {
+            const keywords = extractGeneratorIdeKeywords(text);
+            const summary = generateGeneratorIdeSummary(text);
+            const generatedIdeas = generateGeneratorIdeIdeas(keywords);
+            const strength = calculateGeneratorIdeIdeaStrength(keywords, summary, generatedIdeas);
+            const outline = generateGeneratorIdeOutline(keywords, generatedIdeas);
+            
+            return {
+                keywords,
+                summary,
+                generatedIdeas,
+                title: '',
+                strength,
+                focusFeedback: checkGeneratorIdeKeywordFocus(keywords),
+                outline,
+                originalText: text,
+                date: new Date().toISOString()
+            };
+        }
+        
+        function extractGeneratorIdeKeywords(text) {
+            const cleanText = text.toLowerCase().replace(/[^\w\s]/g, '');
+            const words = cleanText.split(/\s+/);
+            
+            const stopwords = ['dan', 'atau', 'tetapi', 'dengan', 'di', 'ke', 'dari', 'pada', 'yang', 'untuk', 'dalam', 'itu', 'ini', 'saya', 'kamu', 'kami', 'kita', 'mereka', 'adalah', 'sudah', 'akan', 'telah', 'bisa', 'dapat', 'oleh', 'karena', 'sebagai', 'juga', 'saja', 'hanya', 'satu', 'dua', 'tiga', 'lebih', 'sangat', 'ada', 'tidak', 'bukan', 'jika', 'agar', 'supaya', 'ketika', 'saat', 'sebelum', 'setelah', 'agar', 'sehingga', 'meskipun', 'walaupun', 'namun', 'oleh', 'karena'];
+            
+            const wordCount = {};
+            words.forEach(word => {
+                if (word.length > 3 && !stopwords.includes(word)) {
+                    wordCount[word] = (wordCount[word] || 0) + 1;
+                }
+            });
+            
+            const sortedWords = Object.keys(wordCount).sort((a, b) => wordCount[b] - wordCount[a]);
+            const topWords = sortedWords.slice(0, Math.min(10, sortedWords.length));
+            
+            return topWords.map(word => ({
+                word,
+                frequency: wordCount[word],
+                importance: wordCount[word] > 3 ? 'high' : wordCount[word] > 1 ? 'medium' : 'low'
+            }));
+        }
+        
+        function generateGeneratorIdeSummary(text) {
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            
+            if (sentences.length <= 2) {
+                return text;
+            }
+            
+            const firstSentence = sentences[0].trim();
+            let lastSentence = sentences[sentences.length - 1].trim();
+            
+            if (lastSentence.split(' ').length < 5 && sentences.length > 2) {
+                lastSentence = sentences[sentences.length - 2].trim();
+            }
+            
+            return `${firstSentence}. ${lastSentence}.`;
+        }
+        
+        function generateGeneratorIdeIdeas(keywords) {
+            if (keywords.length === 0) return [];
+            
+            const ideas = [];
+            const topics = [
+                "pengaruh", "dampak", "peran", "strategi", "analisis", 
+                "implementasi", "efektivitas", "hubungan", "faktor", "solusi"
+            ];
+            const contexts = [
+                "terhadap perilaku mahasiswa", 
+                "dalam dunia pendidikan", 
+                "pada era digital", 
+                "di lingkungan akademik", 
+                "bagi perkembangan ilmu pengetahuan"
+            ];
+            
+            for (let i = 0; i < Math.min(3, keywords.length); i++) {
+                const keyword = keywords[i].word;
+                const topic = topics[i % topics.length];
+                const context = contexts[i % contexts.length];
+                
+                ideas.push(`${topic} ${keyword} ${context}`);
+            }
+            
+            return ideas;
+        }
+        
+        function calculateGeneratorIdeIdeaStrength(keywords, summary, generatedIdeas) {
+            let score = 0;
+            
+            if (keywords.length >= 5) score += 30;
+            else if (keywords.length >= 3) score += 20;
+            else if (keywords.length >= 1) score += 10;
+            
+            const summarySentences = summary.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            if (summarySentences.length >= 2 && summarySentences.length <= 3) score += 30;
+            else if (summarySentences.length === 1) score += 15;
+            
+            if (generatedIdeas.length >= 3) score += 40;
+            else if (generatedIdeas.length >= 2) score += 25;
+            else if (generatedIdeas.length >= 1) score += 10;
+            
+            return Math.min(score, 100);
+        }
+        
+        function checkGeneratorIdeKeywordFocus(keywords) {
+            if (keywords.length === 0) {
+                return "Tidak ada kata kunci yang ditemukan. Coba masukkan teks yang lebih panjang dan spesifik.";
+            }
+            
+            const highImportanceCount = keywords.filter(k => k.importance === 'high').length;
+            
+            if (keywords.length > 7) {
+                return "Kata kunci terlalu banyak. Ide mungkin terlalu luas. Coba fokus pada 3-5 kata kunci utama.";
+            } else if (highImportanceCount >= 3) {
+                return "Kata kunci memiliki fokus yang baik dengan beberapa kata penting yang muncul berulang.";
+            } else if (keywords.length < 3) {
+                return "Kata kunci terlalu sedikit. Ide mungkin terlalu sempit. Coba masukkan teks yang lebih panjang.";
+            } else {
+                return "Kata kunci memiliki fokus yang cukup baik untuk dikembangkan menjadi tulisan.";
+            }
+        }
+        
+        function generateGeneratorIdeOutline(keywords, generatedIdeas) {
+            if (generatedIdeas.length === 0) return "";
+            
+            const outlineSections = [
+                "Pendahuluan",
+                "Latar Belakang",
+                "Pembahasan",
+                "Analisis/Solusi",
+                "Kesimpulan"
+            ];
+            
+            let outline = `<div class="row">`;
+            
+            outlineSections.forEach((section, index) => {
+                outline += `
+                <div class="col-md-4 mb-3">
+                    <div class="card border-0 bg-light">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-primary">${section}</h6>
+                            <ul class="small">
+                `;
+                
+                if (section === "Pendahuluan") {
+                    outline += `<li>Pengantar topik utama</li>`;
+                    outline += `<li>Rumusan masalah</li>`;
+                    outline += `<li>Tujuan penulisan</li>`;
+                } else if (section === "Latar Belakang") {
+                    outline += `<li>Kontekstualisasi masalah</li>`;
+                    outline += `<li>Data pendukung</li>`;
+                    outline += `<li>Relevansi dengan kata kunci utama</li>`;
+                } else if (section === "Pembahasan") {
+                    keywords.slice(0, 3).forEach(keyword => {
+                        outline += `<li>Pembahasan tentang "${keyword.word}"</li>`;
+                    });
+                } else if (section === "Analisis/Solusi") {
+                    generatedIdeas.slice(0, 2).forEach((idea, i) => {
+                        outline += `<li>${i+1}. ${idea}</li>`;
+                    });
+                } else if (section === "Kesimpulan") {
+                    outline += `<li>Rangkuman temuan utama</li>`;
+                    outline += `<li>Implikasi hasil analisis</li>`;
+                    outline += `<li>Saran untuk penelitian lanjutan</li>`;
+                }
+                
+                outline += `
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                if ((index + 1) % 3 === 0 && index !== outlineSections.length - 1) {
+                    outline += `</div><div class="row">`;
+                }
+            });
+            
+            outline += `</div>`;
+            return outline;
+        }
+
+        function displayGeneratorIdeKeywords(keywords) {
+            const container = document.getElementById('generatorideKeywordsContainer');
+            if (keywords.length === 0) {
+                container.innerHTML = '<p class="text-muted">Tidak ada kata kunci yang ditemukan.</p>';
+                return;
+            }
+            
+            let html = '<div class="d-flex flex-wrap gap-2">';
+            keywords.forEach(keyword => {
+                const importanceClass = keyword.importance === 'high' ? 'bg-primary text-white' : 
+                                      keyword.importance === 'medium' ? 'bg-info text-dark' : 'bg-light text-dark';
+                html += `
+                <span class="badge ${importanceClass} p-2">
+                    ${keyword.word} 
+                    <small class="ms-1">(${keyword.frequency})</small>
+                </span>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function displayGeneratorIdeSummary(summary) {
+            document.getElementById('generatorideSummaryContainer').innerHTML = `<p class="mb-0">${summary}</p>`;
+        }
+        
+        function displayGeneratorIdeGeneratedIdeas(generatedIdeas) {
+            const container = document.getElementById('generatorideIdeaContainer');
+            if (generatedIdeas.length === 0) {
+                container.innerHTML = '<p class="text-muted">Tidak ada ide yang dihasilkan.</p>';
+                return;
+            }
+            
+            let html = '<ul class="list-group list-group-flush">';
+            generatedIdeas.forEach((idea, index) => {
+                html += `
+                <li class="list-group-item border-0 px-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="generatoride-idea-selection" id="generatoride-idea-${index}" ${index === 0 ? 'checked' : ''}>
+                        <label class="form-check-label" for="generatoride-idea-${index}">
+                            ${idea}
+                        </label>
+                    </div>
+                </li>
+                `;
+            });
+            html += '</ul>';
+            container.innerHTML = html;
+        }
+        
+        function updateGeneratorIdeTitle() {
+            const direction = document.querySelector('input[name="generatoride-idea-direction"]:checked').id;
+            const selectedIdea = document.querySelector('input[name="generatoride-idea-selection"]:checked');
+            
+            if (!selectedIdea) return;
+            
+            const ideaText = selectedIdea.nextElementSibling.textContent.trim();
+            let title = '';
+            
+            switch(direction) {
+                case 'generatoride-descriptive':
+                    title = `Deskripsi Lengkap: ${ideaText}`;
+                    break;
+                case 'generatoride-analytical':
+                    title = `Analisis Mendalam: ${ideaText}`;
+                    break;
+                case 'generatoride-solution':
+                    title = `Solusi Inovatif: ${ideaText}`;
+                    break;
+            }
+            
+            currentGeneratorIdeIdea.title = title;
+            document.getElementById('generatorideTitleContainer').innerHTML = `<h5 class="text-primary">${title}</h5>`;
+        }
+        
+        function updateGeneratorIdeStrengthMeter(strength) {
+            const strengthFill = document.getElementById('generatorideStrengthFill');
+            const strengthText = document.getElementById('generatorideStrengthText');
+            const strengthScore = document.getElementById('generatorideStrengthScore');
+            const strengthFeedback = document.getElementById('generatorideStrengthFeedback');
+            
+            strengthFill.style.width = `${strength}%`;
+            
+            if (strength < 40) {
+                strengthFill.className = 'strength-fill bg-danger';
+                strengthText.textContent = 'Lemah';
+            } else if (strength < 70) {
+                strengthFill.className = 'strength-fill bg-warning';
+                strengthText.textContent = 'Cukup';
+            } else {
+                strengthFill.className = 'strength-fill bg-success';
+                strengthText.textContent = 'Kuat';
+            }
+            
+            strengthScore.textContent = `${strength}/100`;
+            
+            let feedback = '';
+            if (strength < 40) {
+                feedback = 'Ide membutuhkan pengembangan lebih lanjut. Coba tambahkan lebih banyak konten atau fokus pada kata kunci yang lebih spesifik.';
+            } else if (strength < 70) {
+                feedback = 'Ide cukup baik untuk dikembangkan. Pertimbangkan untuk menambahkan lebih banyak detail atau contoh spesifik.';
+            } else {
+                feedback = 'Ide kuat dan siap dikembangkan menjadi tulisan lengkap. Kata kunci dan ringkasan sudah fokus.';
+            }
+            
+            strengthFeedback.innerHTML = `<p class="small mb-0">${feedback}</p>`;
+        }
+        
+        function displayGeneratorIdeOutline(outline) {
+            document.getElementById('generatorideOutlineContainer').innerHTML = outline;
+        }
+        
+        function resetGeneratorIdeResults() {
+            document.getElementById('generatorideKeywordsContainer').innerHTML = '<p class="text-muted small">Kata kunci akan muncul di sini setelah teks diproses</p>';
+            document.getElementById('generatorideSummaryContainer').innerHTML = '<p class="text-muted small">Ringkasan akan muncul di sini setelah teks diproses</p>';
+            document.getElementById('generatorideIdeaContainer').innerHTML = '<p class="text-muted small">Ide akan muncul di sini setelah teks diproses</p>';
+            document.getElementById('generatorideTitleContainer').innerHTML = '<p class="text-muted small">Judul akan muncul di sini</p>';
+            document.getElementById('generatorideStrengthFill').style.width = '0%';
+            document.getElementById('generatorideStrengthText').textContent = 'Belum diukur';
+            document.getElementById('generatorideStrengthScore').textContent = '0/100';
+            document.getElementById('generatorideStrengthFeedback').innerHTML = '<p class="text-muted small">Masukkan teks untuk mengevaluasi kekuatan ide</p>';
+            document.getElementById('generatorideOutlineContainer').innerHTML = '<p class="text-muted small">Template kerangka akan muncul di sini setelah ide disimpan</p>';
+        }
+
+        document.querySelectorAll('input[name="generatoride-idea-direction"]').forEach(radio => {
+            radio.addEventListener('change', updateGeneratorIdeTitle);
+        });
+
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'generatoride-idea-selection') {
+                updateGeneratorIdeTitle();
+            }
+        });
+
+        document.getElementById('generatorideSaveIdea').addEventListener('click', function() {
+            if (!auth.currentUser) {
+                showToast('Anda harus login untuk menyimpan ide.', 'warning');
+                return;
+            }
+            
+            if (currentGeneratorIdeIdea.keywords.length === 0) {
+                showToast('Tidak ada ide untuk disimpan. Proses teks terlebih dahulu.', 'warning');
+                return;
+            }
+            
+            const ideaToSave = {
+                id: Date.now().toString(),
+                userId: auth.currentUser.id,
+                title: currentGeneratorIdeIdea.title || 'Ide tanpa judul',
+                keywords: currentGeneratorIdeIdea.keywords.map(k => k.word),
+                summary: currentGeneratorIdeIdea.summary,
+                generatedIdeas: currentGeneratorIdeIdea.generatedIdeas,
+                strength: currentGeneratorIdeIdea.strength,
+                focusFeedback: currentGeneratorIdeIdea.focusFeedback,
+                outline: currentGeneratorIdeIdea.outline,
+                originalText: currentGeneratorIdeIdea.originalText,
+                date: new Date().toISOString()
+            };
+            
+            appData.addIdea(ideaToSave);
+            auth.incrementStat('ideas');
+            showToast('Ide berhasil disimpan!');
+            loadGeneratorIdeHistory();
+            updateDashboard();
+        });
+
+        function loadGeneratorIdeHistory() {
+            const ideas = appData.getIdeas();
+            const userIdeas = ideas.filter(idea => idea.userId === auth.currentUser.id);
+            
+            const historyContainer = document.getElementById('generatorideHistoryContainer');
+            
+            if (userIdeas.length === 0) {
+                historyContainer.innerHTML = '<p class="text-muted text-center py-4">Belum ada ide yang disimpan. Proses teks untuk menyimpan ide pertama Anda.</p>';
+                return;
+            }
+            
+            let html = '';
+            userIdeas.reverse().forEach(idea => {
+                const date = new Date(idea.date).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                html += `
+                <div class="note-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h6 class="mb-1">${idea.title}</h6>
+                        <small class="text-muted">${date}</small>
+                    </div>
+                    <p class="mb-2 small">${idea.summary.substring(0, 100)}${idea.summary.length > 100 ? '...' : ''}</p>
+                    <div class="d-flex flex-wrap gap-1 mb-2">
+                        ${idea.keywords.slice(0, 5).map(keyword => 
+                            `<span class="badge bg-light text-dark">${keyword}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Kekuatan: ${idea.strength}/100</small>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="viewGeneratorIdeIdea(${idea.id})">
+                                <i class="fas fa-eye"></i> Lihat
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteGeneratorIdeIdea(${idea.id})">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+            
+            historyContainer.innerHTML = html;
+        }
+
+        window.viewGeneratorIdeIdea = function(id) {
+            const idea = appData.getIdea(id);
+            if (!idea) return;
+            
+            document.getElementById('generatorideTextInput').value = idea.originalText;
+            
+            currentGeneratorIdeIdea = {
+                keywords: idea.keywords.map(word => ({word, frequency: 1, importance: 'medium'})),
+                summary: idea.summary,
+                generatedIdeas: idea.generatedIdeas,
+                title: idea.title,
+                strength: idea.strength,
+                focusFeedback: idea.focusFeedback,
+                outline: idea.outline,
+                originalText: idea.originalText
+            };
+            
+            displayGeneratorIdeKeywords(currentGeneratorIdeIdea.keywords);
+            displayGeneratorIdeSummary(currentGeneratorIdeIdea.summary);
+            displayGeneratorIdeGeneratedIdeas(currentGeneratorIdeIdea.generatedIdeas);
+            updateGeneratorIdeTitle();
+            updateGeneratorIdeStrengthMeter(currentGeneratorIdeIdea.strength);
+            displayGeneratorIdeOutline(currentGeneratorIdeIdea.outline);
+            
+            navigateTo('generatoride');
+            showToast('Ide berhasil dimuat!');
+        };
+
+        window.deleteGeneratorIdeIdea = function(id) {
+            if (!confirm('Apakah Anda yakin ingin menghapus ide ini?')) return;
+            
+            appData.deleteIdea(id);
+            loadGeneratorIdeHistory();
+            updateDashboard();
+            showToast('Ide berhasil dihapus!');
+        };
 
         // ==================== NOTES MANAGEMENT ====================
         document.getElementById('addNoteBtn').addEventListener('click', () => {
@@ -2203,8 +3455,16 @@
                 form.removeAttribute('data-edit-id');
                 document.querySelector('#addNoteModal .modal-title').textContent = 'Tambah Catatan';
             } else {
-                appData.addNote(title, content);
+                const note = appData.addNote(title, content);
+                auth.incrementStat('notes');
                 showToast('Catatan berhasil ditambahkan!');
+                
+                if (historySystem) {
+                    historySystem.addHistoryItem('note', title, content.substring(0, 100) + '...', {
+                        wordCount: content.split(/\s+/).length,
+                        noteId: note.id
+                    });
+                }
             }
             
             loadNotes();
@@ -2323,7 +3583,6 @@
             });
         }
         
-        // Check animation on scroll
         window.addEventListener('scroll', animateOnScroll);
     </script>
 </body>
